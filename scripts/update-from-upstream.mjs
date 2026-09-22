@@ -156,6 +156,27 @@ function patchLocalAppConfigIssuesUrl(issuesUrl) {
   log(`[upstream] config/default.json issues_url -> ${issuesUrl}(帮助菜单「问题反馈」将打开 GitHub Issue)`);
 }
 
+/**
+ * 把 config/default.json 的 update 块指向 GitHub 仓库 Releases。
+ * 写入后需重新打包,应用内「检查更新」才会走自己的仓库;
+ * 未写入前 update 块为空,应用内更新检查保持彻底禁用。
+ */
+function patchLocalAppConfigUpdateFeed(repoUrl) {
+  if (!existsSync(LOCAL_APP_CONFIG_PATH)) {
+    console.warn(`[upstream] 未找到 ${LOCAL_APP_CONFIG_PATH},跳过更新源回填`);
+    return;
+  }
+  const match = repoUrl.match(/github\.com\/([\w.-]+)\/([\w.-]+)/);
+  if (!match) {
+    console.warn(`[upstream] 无法从 ${repoUrl} 解析 owner/repo,跳过更新源回填`);
+    return;
+  }
+  const config = JSON.parse(readFileSync(LOCAL_APP_CONFIG_PATH, "utf8"));
+  config.update = { provider: "github", owner: match[1], repo: match[2] };
+  writeFileSync(LOCAL_APP_CONFIG_PATH, `${JSON.stringify(config, null, 2)}\n`, "utf8");
+  log(`[upstream] config/default.json update -> github:${match[1]}/${match[2]}(重新打包后应用内更新走你的仓库 Releases)`);
+}
+
 function fetchUpstream() {
   const fetch = run("git", ["fetch", "upstream", "--prune", "--quiet"]);
   if (!fetch.ok) {
@@ -294,6 +315,7 @@ function runSetup() {
   const issuesUrl = repoIssuesUrl(repoUrl);
   if (issuesUrl) {
     patchLocalAppConfigIssuesUrl(issuesUrl);
+    patchLocalAppConfigUpdateFeed(repoUrl);
   }
   ensureGitReady();
   ensureUpstreamRemote(repoUrl);

@@ -244,6 +244,8 @@ node scripts/update-from-upstream.mjs --uninstall-schedule
 
 Issue 反馈入口:帮助菜单的「问题反馈」在 `config/default.json` 的 `issues_url` 配置后,会直接打开上游仓库的 GitHub Issue 页;未配置时保持官方内置反馈表单。`--setup` 会根据仓库地址自动回填该字段。
 
+应用内「检查更新」的更新源由 `config/default.json` 的 `update` 块控制:`owner`/`repo` 为空时**彻底禁用更新检查**(不对官方发布服务发起任何请求,避免自建版本号落后官方通道而收到无关推送);`--setup` 会写入你的 GitHub 仓库,重新打包后即从你的仓库 Releases 检查更新——发布时把 `ZCode-x.y.z-win-x64.exe`、`latest.yml`、`.exe.blockmap` 三个文件一起传到 Release 即可。
+
 ## 定制版:推荐补齐的开源 Skill 清单
 
 自建构建相对官方发行版,主要差距在官方插件生态。按下表优先级补齐,优先使用开源实现:
