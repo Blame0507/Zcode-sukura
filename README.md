@@ -220,6 +220,17 @@ node dist/zcode/debug/zcode/bin/zcode.mjs --web \
 
 ## 定制版:上游自动更新与 Issue 反馈
 
+### 数据与官方版完全隔离
+
+本构建的产品身份为 **ZCode Sakura**(appId `dev.zcode.app.sakura`),与官方闭源版并排安装、同时运行互不干扰:
+
+- 数据根固定在 `~/.zcode-sakura-home/.zcode`(会话、设置、凭据、日志),不读写官方版的 `~/.zcode`,双开不再互抢 SQLite 锁或串任务/设置;
+- Electron 数据目录(userData / localStorage / 更新缓存)随应用名 `ZCode Sakura` 独立;
+- 环境变量 `ZCODE_DATA_BASE_DIR` 仍是最高优先级逃生口,显式设置时覆盖 fork 默认;设置页的「数据目录」迁移配置只从 fork 自己的 `setting.json` 读取;
+- 首次运行如需官方插件,可一次性拷贝:`robocopy %USERPROFILE%\.zcode\cli\plugins %USERPROFILE%\.zcode-sakura-home\.zcode\cli\plugins /E`(仅个人使用,勿再分发)。
+
+### 上游同步
+
 本仓库是带本地定制的 fork(主题、功能裁剪等),更新必须走 git 合并而不是覆盖目录,否则本地修改会丢失。`scripts/update-from-upstream.mjs` 封装了完整流程:
 
 ```bash

@@ -2064,7 +2064,7 @@ body {
   --animated-gradient-text-soft: rgba(61, 39, 51, 0.22);
   --sakura-petal-a: #f7b8ca;
   --sakura-petal-b: #fbd3de;
-  --color-background: #fae8ea;
+  --color-background: #fbf3f5;
   --color-background-win-alt: #f2dde1;
   --color-background-alt: color-mix(in oklab, var(--color-background) 70%, transparent);
   --color-brand: #d96b8a;
@@ -2076,7 +2076,7 @@ body {
   --color-workflow-rule: rgba(61, 39, 51, 0.06);
   --color-workflow-trace: rgba(61, 39, 51, 0.3);
   --color-workflow-trace-strong: rgba(61, 39, 51, 0.55);
-  --color-accent: #fdeef2;
+  --color-accent: #fce7ee;
   --color-find-highlight: #ffeef3;
   --color-find-highlight-active: #ffb26b;
   --color-border: rgba(61, 39, 51, 0.12);
@@ -2085,8 +2085,8 @@ body {
   --color-selected: rgba(217, 107, 138, 0.1);
   --color-header: #ffffff;
   --color-panel: #ffffff;
-  --color-sidebar: #f7e8ec;
-  --color-surface: rgba(61, 39, 51, 0.03);
+  --color-sidebar: #f7e6ec;
+  --color-surface: #fdf9fa;
   --color-surface-hover: rgba(61, 39, 51, 0.05);
   --color-card: #ffffff;
   --color-card-selected: var(--color-input);
@@ -2140,14 +2140,14 @@ body {
   --color-usage-heatmap-2: color-mix(in oklab, #d96b8a 36%, var(--color-surface));
   --color-usage-heatmap-3: color-mix(in oklab, #d96b8a 58%, var(--color-surface));
   --color-usage-heatmap-4: color-mix(in oklab, #c2557d 82%, var(--color-surface));
-  --color-tab: #f7e8ec;
+  --color-tab: #f7e6ec;
   --color-tab-active: #ffffff;
   --color-tab-border: var(--color-border);
   --color-menu: #ffffff;
-  --color-menu-hover: #f7e8ec;
+  --color-menu-hover: #f7e6ec;
   --color-primary: #d96b8a;
   --color-primary-foreground: #ffffff;
-  --color-secondary: #f3dce2;
+  --color-secondary: #f9e7ec;
   --color-interaction-ask-surface: #ebf4ff;
   --color-interaction-ask-foreground: #0066dd;
   --color-interaction-ask-fill: rgba(70, 191, 114, 0.2);
@@ -2209,6 +2209,17 @@ body {
 
 .theme-sakura ::selection {
   background-color: rgba(217, 107, 138, 0.22);
+}
+
+/* 参考图融合:对话区渐变天空背景。静态渐变零动画开销;花瓣层仍挂在该容器内。 */
+.theme-sakura [data-workspace-conversation-frame] {
+  background: linear-gradient(180deg, #fdf9fa 0%, #faeef1 48%, #f6dfe6 100%);
+}
+
+/* 参考图融合:主按钮品牌渐变。背景色 token 兜底,渐变覆盖其上;
+   hover/禁用态仍由既有 bg-primary/xx 透明度变体控制。 */
+.theme-sakura .bg-primary {
+  background-image: linear-gradient(135deg, #e87a9e 0%, #c2557d 100%);
 }
 
 /* ============================================================
