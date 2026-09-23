@@ -2329,8 +2329,8 @@ html.theme-switching *::after {
   pointer-events: none;
   background-image: url("./assets/sakura-bg.png");
   background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: cover;
+  background-position: center;
+  background-size: 100% 100%;
   filter: blur(3px) saturate(1.06);
   opacity: 0.45;
 }
