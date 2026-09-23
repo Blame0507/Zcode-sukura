@@ -2331,6 +2331,6 @@ html.theme-switching *::after {
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: cover;
-  filter: blur(6px) saturate(1.06);
-  opacity: 0.42;
+  filter: blur(3px) saturate(1.06);
+  opacity: 0.45;
 }
