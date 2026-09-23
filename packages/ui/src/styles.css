@@ -2318,3 +2318,19 @@ html.theme-switching *::after {
     transition: none !important;
   }
 }
+
+
+/* 参考图融合:用户参考图作为对话区壁纸层。原图为应用截图,经 blur 融化
+   UI 细节成柔和纹理,低透明度叠加在主题渐变之上;负 inset 防止 blur 边缘露底。 */
+.theme-sakura [data-workspace-conversation-frame]::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  pointer-events: none;
+  background-image: url("./assets/sakura-bg.png");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  filter: blur(6px) saturate(1.06);
+  opacity: 0.42;
+}
