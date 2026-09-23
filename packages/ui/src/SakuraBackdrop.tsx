@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 
 const SAKURA_THEME_CLASS = "theme-sakura";
-const PETAL_COUNT = 22;
+const PETAL_COUNT = 36;
 
 function buildPetalStyle(index: number, random: () => number): CSSProperties {
   const size = 8 + Math.round(random() * 8);
