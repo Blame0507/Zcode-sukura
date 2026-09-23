@@ -102,7 +102,8 @@ export function useTheme() {
   const [theme, setThemeState] = useState<Theme>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     // 默认主题统一收敛到 Zai dark，避免旧 hook 兜底值和 Zustand store 默认值分叉。
-    return isTheme(saved) ? normalizeThemePreference(saved) : "zai-dark";
+    // 定制版 fork 默认主题:樱花粉(用户未显式选择过主题时)。
+    return isTheme(saved) ? normalizeThemePreference(saved) : "sakura";
   });
 
   const setTheme = useCallback((t: Theme) => {
