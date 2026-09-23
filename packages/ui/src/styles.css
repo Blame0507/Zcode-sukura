@@ -2321,7 +2321,9 @@ html.theme-switching *::after {
 
 
 /* 参考图融合:用户参考图作为对话区壁纸层。原图为应用截图,经 blur 融化
-   UI 细节成柔和纹理,低透明度叠加在主题渐变之上;负 inset 防止 blur 边缘露底。 */
+   UI 细节成柔和纹理,低透明度叠加在主题渐变之上;负 inset 防止 blur 边缘露底。
+   background-size 用 contain:原图约 16:9,窗口比例变化时整图等比完整呈现、
+   构图与全屏状态一致,不随窗口拉伸变形;两侧留白由底层主题渐变自然接住。 */
 .theme-sakura [data-workspace-conversation-frame]::before {
   content: "";
   position: absolute;
@@ -2330,7 +2332,7 @@ html.theme-switching *::after {
   background-image: url("./assets/sakura-bg.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 100% 100%;
+  background-size: contain;
   filter: blur(3px) saturate(1.06);
   opacity: 0.45;
 }
