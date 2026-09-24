@@ -170,20 +170,18 @@ node scripts/update-from-upstream.mjs --uninstall-schedule
 ## 已知差异(相对官方闭源版)
 
 - 闭源原生的 CUA 屏幕控制通道(带签名信任门)在自建未签名构建中不可用;OS 级控制的技能引导仍在,日常网页场景由 browser-use 覆盖
-- 樱花壁纸层当前使用的图片素材仅限个人使用,**再分发(含公开发布本仓库/安装包)前必须替换**为自绘或授权明确的素材,详见下方声明
 
 ## 声明与许可
 
 - 本项目为个人定制的非官方分支,与 Z.ai 无隶属、合作或被背书关系;"ZCode" 名称与相关标识的权利归其权利人所有
 - 上游代码遵循 Apache-2.0,见 [LICENSE](LICENSE) 与 [NOTICE.md](NOTICE.md);本分支的修改在同一许可下提供
-- community-skills 插件内技能均为 MIT 许可,来源见各技能目录 `SOURCE.txt`
-- 提交历史使用 noreply 邮箱,不含个人信息;壁纸素材与粉色 logo/图标中的图形元素在公开再分发前需自行确认权利或替换
+- 樱花壁纸 `sakura-bg.png` 与主题视觉为本分支自制原创素材;community-skills 插件内技能均为 MIT 许可,来源见各技能目录 `SOURCE.txt`
+- 提交历史使用 noreply 邮箱,不含个人信息
 
 ## 发布前检查清单
 
 公开发布本仓库或安装包前,逐项确认:
 
-1. **壁纸素材**:`packages/ui/src/assets/sakura-bg.png` 当前为个人使用素材,再分发前替换为自绘/授权明确的图片,并用 `git filter-repo` 从历史中移除旧图
-2. **品牌与命名**:评估是否改名(如 "Sakura Code")并替换 Z 字图形,规避商标问题;改名需同步 `desktop-product-identity.mjs`(appId/productName)与打包配置
-3. **安装包**:Release 挂载的 exe 同样包含壁纸与图标,先完成上述两项再出包
-4. **凭据与本地数据**:`~/.zcode-sakura-home` 与构建产物 `dist/` 永不提交、永不随包分发(当前已确认仓库内无任何凭据/个人信息)
+1. **品牌与命名**(可选):如需规避商标问题,可改名(如 "Sakura Code")并替换 Z 字图形;改名需同步 `desktop-product-identity.mjs`(appId/productName)与打包配置
+2. **安装包**:Release 挂载的 exe 会包含全套视觉素材与品牌命名,出包前完成上一步的决策
+3. **凭据与本地数据**:`~/.zcode-sakura-home` 与构建产物 `dist/` 永不提交、永不随包分发(当前已确认仓库内无任何凭据/个人信息)
