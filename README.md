@@ -174,7 +174,7 @@ node scripts/update-from-upstream.mjs --uninstall-schedule
 ## 声明与许可
 
 - 本项目为个人定制的非官方分支,与 Z.ai 无隶属、合作或被背书关系;"ZCode" 名称与相关标识的权利归其权利人所有
-- 上游代码遵循 Apache-2.0,见 [LICENSE](LICENSE) 与 [NOTICE.md](NOTICE.md);本分支的修改在同一许可下提供
+- **双许可**:上游派生部分遵循 Apache-2.0(见 [LICENSE](LICENSE) 与 [NOTICE.md](NOTICE.md));本分支的修改与新增部分(主题、品牌、数据隔离、壁纸设置、同步工具等)同时以 MIT 提供,见 [LICENSE-MIT](LICENSE-MIT)
 - 樱花壁纸 `sakura-bg.png` 与主题视觉为本分支自制原创素材;community-skills 插件内技能均为 MIT 许可,来源见各技能目录 `SOURCE.txt`
 - 提交历史使用 noreply 邮箱,不含个人信息
 
