@@ -23,6 +23,14 @@
   - 一键「恢复默认」回到内置樱花壁纸
   - 新增桌面命令 `chooseConversationWallpaper` / `clearConversationWallpaper` / `getConversationWallpaper`
 
+### 数据隔离加固
+
+- 用户级文件全部改为跟随应用数据根解析(官方构建语义不变,仍等于真实 HOME):
+  - 技能 / 命令 / hooks / MCP 兼容目录 / 子代理存储 / 设置 / 设置同步 / 插件存储(services 侧 `getDataBaseDir()`)
+  - Agent 运行时的用户级技能、命令、AGENTS.md 用户指令(adapters 侧 `ZCODE_DATA_BASE_DIR` 环境变量)
+  - 配置路径 `~` 展开枢纽同样优先数据根
+- 效果:隔离实例不再读写真实 HOME 下其他版本的任何用户级文件(此前曾把数据目录设置串写进其他版本的配置导致其数据根被改,本修复根治该类问题)
+
 ### 修复 / 适配
 
 - 合并过程中补回被上游覆盖冲掉的分支接线:`getIssuesUrlFromConfig` 导出(issue 反馈链接)等
