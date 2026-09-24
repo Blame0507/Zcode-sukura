@@ -1,6 +1,6 @@
+import { getDataBaseDir } from "../paths.js";
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { homedir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
 import type {
   Hook,
@@ -49,8 +49,10 @@ interface ZCodeConfigFile {
 }
 
 function resolveUserHomeDir(): string {
-  const envHome = process.env.HOME?.trim() || process.env.USERPROFILE?.trim();
-  return envHome && envHome.length > 0 ? envHome : homedir();
+  // 用户级目录跟随应用数据根:官方构建 getDataBaseDir()=真实 HOME,行为不变;
+  // 携带独立数据根的实例(如 ZCode Sakura)不再读/写真实 HOME 下其他版本的
+  // 用户级技能、命令、hooks、配置与指令文件。
+  return getDataBaseDir();
 }
 
 function getRootDir(source: SettingsDirectorySource, workspacePath?: string): string {

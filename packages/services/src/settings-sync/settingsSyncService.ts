@@ -1,4 +1,5 @@
 /* eslint-disable max-lines -- settings-sync 需要集中维护外部 skills/commands/plugins/MCP 扫描、去重和导入状态机，后续按资源类别拆分 */
+import { getDataBaseDir } from "../paths.js";
 import type {
   McpServerConfig,
   SettingsSyncAgent,
@@ -32,7 +33,6 @@ import {
   symlink,
   writeFile,
 } from "node:fs/promises";
-import { homedir } from "node:os";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { parse as parseToml } from "smol-toml";
@@ -417,8 +417,10 @@ const CODEX_PLUGIN_MANIFEST_PATH = [".codex-plugin", "plugin.json"] as const;
 const INLINE_PLUGIN_MARKETPLACE = "inline";
 
 function resolveUserHomeDir(): string {
-  const envHome = process.env.HOME?.trim() || process.env.USERPROFILE?.trim();
-  return envHome && envHome.length > 0 ? envHome : homedir();
+  // 用户级目录跟随应用数据根:官方构建 getDataBaseDir()=真实 HOME,行为不变;
+  // 携带独立数据根的实例(如 ZCode Sakura)不再读/写真实 HOME 下其他版本的
+  // 用户级技能、命令、hooks、配置与指令文件。
+  return getDataBaseDir();
 }
 
 function getWorkspaceZcodeSkillRoot(workspacePath: string): string {

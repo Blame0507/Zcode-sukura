@@ -45,11 +45,12 @@ const debugLog = (...args: unknown[]) => {
 function resolveUserHomeDir() {
   // 独立桌面 Dev 实例已设置自己的 home，设置服务却仍写真实 HOME，
   // 导致启动迁移和外观操作污染其他实例。与 Electron 的显式 home 覆盖保持一致。
-  const envHome =
-    process.env.ZCODE_DESKTOP_HOME_DIR?.trim() ||
-    process.env.HOME?.trim() ||
-    process.env.USERPROFILE?.trim();
-  return envHome && envHome.length > 0 ? envHome : homedir();
+  const explicitDesktopHome = process.env.ZCODE_DESKTOP_HOME_DIR?.trim();
+  if (explicitDesktopHome && explicitDesktopHome.length > 0) {
+    return explicitDesktopHome;
+  }
+  // 其次跟随应用数据根(官方=真实 HOME;隔离实例=各自独立根,设置互不串)。
+  return getDataBaseDir();
 }
 
 function getSettingsDir() {

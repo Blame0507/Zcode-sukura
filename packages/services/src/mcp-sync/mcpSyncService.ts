@@ -1,7 +1,7 @@
 /* eslint-disable max-lines -- MCP 同步服务集中维护用户目录读写、远端导入和 filesystem 路径改写，拆分会增加远端配置同步回归面。 */
+import { getDataBaseDir } from "../paths.js";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
-import { homedir } from "node:os";
 import { basename, dirname, join, posix, win32 } from "node:path";
 import type {
   LoadCliMcpFromUserDirectoryRequest,
@@ -146,7 +146,10 @@ export function createMcpSyncService(
 }
 
 function resolveUserHomeDir(): string {
-  return process.env.HOME?.trim() || process.env.USERPROFILE?.trim() || homedir();
+  // 用户级目录跟随应用数据根:官方构建 getDataBaseDir()=真实 HOME,行为不变;
+  // 携带独立数据根的实例(如 ZCode Sakura)不再读/写真实 HOME 下其他版本的
+  // 用户级技能、命令、hooks、配置与指令文件。
+  return getDataBaseDir();
 }
 
 function buildDirectoryConfigPath(

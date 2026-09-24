@@ -1,4 +1,5 @@
 /* eslint-disable max-lines -- skill 发现 + 校验 + 状态 + 通用目录管理在同一服务里聚合，分层后跳转成本更高 */
+import { getDataBaseDir } from "../paths.js";
 import {
   access,
   appendFile,
@@ -12,7 +13,6 @@ import {
 } from "node:fs/promises";
 import { existsSync, type Dirent } from "node:fs";
 import { createHash } from "node:crypto";
-import { homedir } from "node:os";
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { parse as parseYaml } from "yaml";
 import type {
@@ -60,9 +60,11 @@ const CODEX_PLUGIN_MANIFEST_PATH = join(".codex-plugin", "plugin.json");
 
 /** 对齐 apps/zcode-cli/packages/adapters/src/skills/index.ts:19 */
 const MAX_DESCRIPTION_LENGTH = 1024;
-function resolveUserHomeDir() {
-  const envHome = process.env.HOME?.trim() || process.env.USERPROFILE?.trim();
-  return envHome && envHome.length > 0 ? envHome : homedir();
+function resolveUserHomeDir(): string {
+  // 用户级目录跟随应用数据根:官方构建 getDataBaseDir()=真实 HOME,行为不变;
+  // 携带独立数据根的实例(如 ZCode Sakura)不再读/写真实 HOME 下其他版本的
+  // 用户级技能、命令、hooks、配置与指令文件。
+  return getDataBaseDir();
 }
 
 interface SkillsServiceOptions {

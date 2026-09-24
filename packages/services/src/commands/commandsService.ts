@@ -1,7 +1,7 @@
 /* eslint-disable max-lines -- commandsService 需要集中处理目录来源优先级、读写和命令解析，拆分会削弱读取顺序的一致性 */
+import { getDataBaseDir } from "../paths.js";
 import { access, lstat, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
-import { homedir } from "node:os";
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import {
   ZCODE_COMMAND_AGENT_SOURCE,
@@ -24,9 +24,11 @@ import type { ICommandsService } from "./commands.js";
 import { CommandFileParser, type CommandFileFormat } from "./commandFileParser.js";
 import { readInstalledPluginRoots } from "#src/plugins/installedPluginRoots.js";
 
-function resolveUserHomeDir() {
-  const envHome = process.env.HOME?.trim() || process.env.USERPROFILE?.trim();
-  return envHome && envHome.length > 0 ? envHome : homedir();
+function resolveUserHomeDir(): string {
+  // 用户级目录跟随应用数据根:官方构建 getDataBaseDir()=真实 HOME,行为不变;
+  // 携带独立数据根的实例(如 ZCode Sakura)不再读/写真实 HOME 下其他版本的
+  // 用户级技能、命令、hooks、配置与指令文件。
+  return getDataBaseDir();
 }
 
 interface CommandAgentSourceDescriptor {

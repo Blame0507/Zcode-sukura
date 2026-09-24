@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
-import { homedir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
+import { getDataBaseDir } from "../paths.js";
 
 const HOME_PREFIX = "~/";
 
@@ -12,8 +12,9 @@ export function resolveUserHomeDir(options?: SubagentStorageOptions): string {
   if (options?.homeDir && options.homeDir.trim().length > 0) {
     return options.homeDir;
   }
-  const envHome = process.env.HOME?.trim() || process.env.USERPROFILE?.trim();
-  return envHome && envHome.length > 0 ? envHome : homedir();
+  // 用户级子代理存储跟随应用数据根:官方构建=真实 HOME 语义不变;
+  // 隔离实例不再读取真实 HOME 下其他版本的 cli 配置与 agents 目录。
+  return getDataBaseDir();
 }
 
 export async function resolveUserSubagentRoot(options?: SubagentStorageOptions): Promise<string> {

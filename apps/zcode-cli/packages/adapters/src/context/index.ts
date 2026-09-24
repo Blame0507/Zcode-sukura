@@ -243,6 +243,12 @@ async function findDefaultUserInstructionFile(
 }
 
 function resolveUserHomeDir(env: NodeJS.ProcessEnv): string {
+  // 携带独立数据根的宿主(如 ZCode Sakura)会把 ZCODE_DATA_BASE_DIR 注入子进程,
+  // 用户级文件(AGENTS.md 等)必须跟随该根,避免读到其他版本的用户指令。
+  const dataBaseDir = env.ZCODE_DATA_BASE_DIR?.trim();
+  if (dataBaseDir && dataBaseDir.length > 0) {
+    return dataBaseDir;
+  }
   const envHome = env.HOME?.trim() || env.USERPROFILE?.trim();
   return envHome && envHome.length > 0 ? envHome : homedir();
 }

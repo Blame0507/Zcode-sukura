@@ -24,7 +24,12 @@ export async function resolveDefaultSkillRoots(
   const resolvedWorkingDirectory = resolve(workingDirectory);
   const roots: SkillRoot[] = [];
   const includeZcode = options.includeZcodeSkills ?? true;
-  const home = options.homeDirectory ?? homedir();
+  // 宿主注入的独立数据根优先(隔离实例的用户级技能不落真实 HOME);
+  // 未注入时保持 homedir(),官方 CLI 行为不变。
+  const home =
+    options.homeDirectory ??
+    (process.env.ZCODE_DATA_BASE_DIR?.trim() || undefined) ??
+    homedir();
   let priority = 0;
   const nextPriority = () => {
     priority += PRIORITY_STEP;

@@ -66,7 +66,11 @@ const DEFAULT_BASE_DIR = "~/.zcode/cli";
  */
 export function resolvePath(path: string): string {
   if (path.startsWith("~/")) {
-    return join(homedir(), path.slice(2));
+    // 宿主注入独立数据根(ZCODE_DATA_BASE_DIR)时,"~" 指向该根,
+    // 隔离实例(如 ZCode Sakura)的配置/存储/插件不再落真实 HOME,
+    // 也不会读到其他版本的对应文件;官方 CLI 未注入,保持 homedir()。
+    const base = process.env.ZCODE_DATA_BASE_DIR?.trim() || homedir();
+    return join(base, path.slice(2));
   }
   return resolve(path);
 }

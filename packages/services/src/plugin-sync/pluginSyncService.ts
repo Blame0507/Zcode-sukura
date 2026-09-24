@@ -1,4 +1,5 @@
 /* eslint-disable max-lines -- plugin 同步需要集中维护候选扫描、归档安全、远端判重和配置写入，拆分会增加远端同步回归面。 */
+import { getDataBaseDir } from "../paths.js";
 import { createHash, randomUUID } from "node:crypto";
 import { existsSync } from "node:fs";
 import {
@@ -12,7 +13,7 @@ import {
   rm,
   writeFile,
 } from "node:fs/promises";
-import { homedir, tmpdir } from "node:os";
+import { tmpdir } from "node:os";
 import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import type {
   PluginSyncCandidate,
@@ -213,7 +214,10 @@ export function createPluginSyncService(options?: {
 }
 
 function resolveUserHomeDir(): string {
-  return process.env.HOME?.trim() || process.env.USERPROFILE?.trim() || homedir();
+  // 用户级目录跟随应用数据根:官方构建 getDataBaseDir()=真实 HOME,行为不变;
+  // 携带独立数据根的实例(如 ZCode Sakura)不再读/写真实 HOME 下其他版本的
+  // 用户级技能、命令、hooks、配置与指令文件。
+  return getDataBaseDir();
 }
 
 function getUserZcodeConfigPath(): string {

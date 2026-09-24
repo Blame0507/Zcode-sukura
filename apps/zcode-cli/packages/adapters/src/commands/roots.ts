@@ -24,7 +24,11 @@ export async function resolveDefaultCustomCommandRoots(
   const resolvedWorkingDirectory = resolve(workingDirectory);
   const roots: CustomCommandRoot[] = [];
   const includeZcode = options.includeZcodeCommands ?? true;
-  const home = options.homeDirectory ?? homedir();
+  // 宿主注入的独立数据根优先(隔离实例的用户级命令不落真实 HOME);官方 CLI 不变。
+  const home =
+    options.homeDirectory ??
+    (process.env.ZCODE_DATA_BASE_DIR?.trim() || undefined) ??
+    homedir();
   let priority = 0;
   const nextPriority = () => {
     priority += PRIORITY_STEP;
