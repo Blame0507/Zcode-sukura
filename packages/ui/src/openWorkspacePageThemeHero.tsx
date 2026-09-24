@@ -27,17 +27,6 @@ function getThemeHeroPalette(theme: Theme): ThemeHeroPalette {
         heading: "text-slate-900",
         description: "text-slate-700/80",
       };
-    case "sakura":
-      return {
-        meshBase: "#fae8ea",
-        meshLight: "#f7b8ca",
-        panel:
-          "bg-[linear-gradient(180deg,#ffffff_0%,#faeef1_42%,#fbdce5_100%)] before:absolute before:inset-0 before:content-[''] before:bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.92),transparent_24%),radial-gradient(circle_at_82%_14%,rgba(247,184,202,0.42),transparent_26%),radial-gradient(circle_at_70%_84%,rgba(217,107,138,0.22),transparent_30%)]",
-        glowPrimary: "bg-[#F7B8CA]/45 mix-blend-multiply",
-        glowSecondary: "bg-[#FDEEF2]/80 mix-blend-multiply",
-        heading: "text-[#3D2733]",
-        description: "text-[#94637A]",
-      };
     case "zai-light":
       return {
         meshBase: "#f8f8f8",

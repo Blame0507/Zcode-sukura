@@ -51,7 +51,6 @@ export function WorkspaceHelpMenuButton({
     platform,
     intl,
     openSubmit: openFeedbackSubmit,
-    isDesktop,
   });
   const handleOpenCommunity = () => {
     void platform.openCommunity();

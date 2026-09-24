@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 
-export type Theme = "light" | "dark" | "zai-light" | "zai-dark" | "sakura" | "system";
+export type Theme = "light" | "dark" | "zai-light" | "zai-dark" | "system";
 export type ResolvedTheme = "light" | "dark";
 
 const STORAGE_KEY = "zcode-theme";
@@ -55,22 +55,6 @@ function syncBrowserThemeSurface(resolved: ResolvedTheme) {
   }
 }
 
-let themeSwitchingTimer: number | undefined;
-
-// 主题切换时临时挂 .theme-switching,让全站颜色 240ms 平滑渐变后自动移除;
-// 稳态无该 class,过渡规则不参与级联,不与组件自身 transition 冲突。
-function enableThemeSwitchTransition() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return;
-  }
-  const root = document.documentElement;
-  root.classList.add("theme-switching");
-  window.clearTimeout(themeSwitchingTimer);
-  themeSwitchingTimer = window.setTimeout(() => {
-    root.classList.remove("theme-switching");
-  }, 300);
-}
-
 export function applyTheme(theme: Theme) {
   const resolved = resolveTheme(theme);
   const appliedTheme =
@@ -82,8 +66,6 @@ export function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle("dark", resolved === "dark");
   document.documentElement.classList.toggle("theme-zai-light", appliedTheme === "zai-light");
   document.documentElement.classList.toggle("theme-zai-dark", appliedTheme === "zai-dark");
-  document.documentElement.classList.toggle("theme-sakura", appliedTheme === "sakura");
-  enableThemeSwitchTransition();
   syncBrowserThemeSurface(resolved);
 }
 
@@ -93,7 +75,6 @@ function isTheme(value: string | null): value is Theme {
     value === "dark" ||
     value === "zai-light" ||
     value === "zai-dark" ||
-    value === "sakura" ||
     value === "system"
   );
 }
@@ -102,8 +83,7 @@ export function useTheme() {
   const [theme, setThemeState] = useState<Theme>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     // 默认主题统一收敛到 Zai dark，避免旧 hook 兜底值和 Zustand store 默认值分叉。
-    // 定制版 fork 默认主题:樱花粉(用户未显式选择过主题时)。
-    return isTheme(saved) ? normalizeThemePreference(saved) : "sakura";
+    return isTheme(saved) ? normalizeThemePreference(saved) : "zai-dark";
   });
 
   const setTheme = useCallback((t: Theme) => {

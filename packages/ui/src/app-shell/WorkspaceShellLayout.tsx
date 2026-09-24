@@ -10,7 +10,6 @@ import type { PanelImperativeHandle } from "react-resizable-panels";
 import { TID_APP_HEADER } from "@zcode/shared";
 // 保活：workspace tab 真正关闭时，按 workspaceKey 回收 side pane terminal 的常驻 PTY/xterm。
 // 对称下侧 Terminal.tsx 的 openWorkspaceKeys 回收。
-import { SakuraBackdrop } from "@/SakuraBackdrop.js";
 import { sidePaneTerminalSessionRegistry } from "@/terminal/sidePaneTerminalSessionRegistry.js";
 import { V4ChatPane } from "@/v4/V4ChatPane.js";
 import { V4WorkspaceChatArea } from "@/v4/V4WorkspaceChatArea.js";
@@ -1685,7 +1684,6 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                       isTerminalVisible && "rounded-b-[var(--workspace-panel-radius)] border-b",
                     )}
                   >
-                    <SakuraBackdrop />
                     {shouldRenderWorkspaceHeader ? (
                       <ScopedErrorBoundary
                         scope="workspace-header"

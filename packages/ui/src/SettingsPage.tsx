@@ -1293,7 +1293,6 @@ export function SettingsPage({
         value === "dark" ||
         value === "zai-light" ||
         value === "zai-dark" ||
-        value === "sakura" ||
         value === "system"
       ) {
         runUserAction({
