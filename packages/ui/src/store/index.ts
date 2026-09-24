@@ -258,7 +258,7 @@ export function createZCodeStore(
     setTheme: (theme: Theme) => {
       const normalizedTheme = normalizeThemePreference(theme);
       // TODO(theme-debug): 临时诊断——定位主题被回弹的调用方,问题修复后移除。
-      logger.warn("[THEME-DBG] setTheme", {
+      logger.lifecycle.warn("[THEME-DBG] setTheme", {
         from: useStore.getState().theme,
         to: normalizedTheme,
         raw: theme,
@@ -479,7 +479,7 @@ export function createZCodeStore(
       // 调用对应的 setter，确保副作用（localStorage、DOM）也执行
       const state = useStore.getState();
       if (field === "theme" && typeof msg.payload === "string") {
-        logger.warn("[THEME-DBG] broadcast-apply theme", { payload: msg.payload });
+        logger.lifecycle.warn("[THEME-DBG] broadcast-apply theme", { payload: msg.payload });
         state.setTheme(msg.payload as Theme);
       } else if (field === "locale" && typeof msg.payload === "string") {
         state.setLocale(msg.payload);
