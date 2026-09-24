@@ -6,6 +6,7 @@ interface RemoteAppConfigLike {
   feedback_use_external_form?: unknown;
   community_urls?: unknown;
   forceUpdate?: unknown;
+  issues_url?: unknown;
 }
 
 type LocaleUrlMap = Partial<Record<Locale, string>>;
@@ -24,6 +25,15 @@ export function getFeedbackUrlFromConfig(config: unknown): string | undefined {
   }
 
   return sanitizeUrl((config as RemoteAppConfigLike).feedback_url);
+}
+
+/** 定制版 fork 的 GitHub Issue 入口;仅由本地 config/default.json 提供,远端配置不参与。 */
+export function getIssuesUrlFromConfig(config: unknown): string | undefined {
+  if (!isRecord(config)) {
+    return undefined;
+  }
+
+  return sanitizeUrl((config as RemoteAppConfigLike).issues_url);
 }
 
 export function getFeedbackApiBaseFromConfig(config: unknown): string | undefined {

@@ -2308,7 +2308,9 @@ html.theme-switching *::after {
   position: absolute;
   inset: -24px;
   pointer-events: none;
-  background-image: url("./assets/sakura-bg.png");
+  /* 用户在 设置→外观→对话区背景图 选择自定义图片时,renderer 写入
+     --zcode-conversation-wallpaper 变量覆盖默认图;未设置时回落内置壁纸。 */
+  background-image: var(--zcode-conversation-wallpaper, url("./assets/sakura-bg.png"));
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100% 100%;

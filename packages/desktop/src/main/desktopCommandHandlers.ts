@@ -1,6 +1,6 @@
 /* eslint-disable max-lines -- 桌面命令分发需要共享窗口与平台上下文，集中维护更便于一致性 */
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { copyFile, mkdir, readFile, readdir, rm, stat } from "node:fs/promises";
+import { basename, join } from "node:path";
 import { app, BrowserWindow, dialog, session, shell } from "electron";
 import type { MessageBoxOptions } from "electron";
 import {
@@ -21,7 +21,11 @@ import {
   normalizeZCodeEndpointOrigin,
   resolveZCodeEndpointOrigin,
 } from "@zcode/shared";
-import { readZCodeStdioTapDevState, setZCodeStdioTapDevEnabled } from "@zcode/services/node";
+import {
+  getZCodeDataRootDir,
+  readZCodeStdioTapDevState,
+  setZCodeStdioTapDevEnabled,
+} from "@zcode/services/node";
 import { showAboutDialog } from "./about.js";
 import { checkForUpdateMenuClick } from "./autoUpdater.js";
 import { exportLogs } from "./exportLogs.js";
@@ -283,6 +287,101 @@ async function openCommunity(
     return;
   }
   await shell.openExternal(communityUrl);
+}
+
+/**
+ * 定制版 fork:对话区自定义背景图。
+ * 图片保存在隔离数据根的 wallpaper/ 目录下(单文件,选新图覆盖旧图),
+ * renderer 通过返回的 data URL 以 CSS 变量覆盖主题默认壁纸。
+ */
+const CONVERSATION_WALLPAPER_DIR_NAME = "wallpaper";
+const CONVERSATION_WALLPAPER_FILE_BASE = "custom-wallpaper";
+const CONVERSATION_WALLPAPER_MAX_BYTES = 20 * 1024 * 1024;
+const CONVERSATION_WALLPAPER_MIME_BY_EXT: Record<string, string> = {
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
+  ".gif": "image/gif",
+  ".bmp": "image/bmp",
+};
+
+function getConversationWallpaperDir(): string {
+  return join(getZCodeDataRootDir(), CONVERSATION_WALLPAPER_DIR_NAME);
+}
+
+async function findStoredConversationWallpaper(): Promise<
+  { filePath: string; dataUrl: string } | undefined
+> {
+  let entries: string[];
+  try {
+    entries = await readdir(getConversationWallpaperDir());
+  } catch {
+    return undefined;
+  }
+  for (const entry of entries) {
+    if (!entry.startsWith(CONVERSATION_WALLPAPER_FILE_BASE)) {
+      continue;
+    }
+    const filePath = join(getConversationWallpaperDir(), entry);
+    const mime =
+      CONVERSATION_WALLPAPER_MIME_BY_EXT[
+        entry.slice(entry.lastIndexOf("."))?.toLowerCase() ?? ""
+      ];
+    if (!mime) {
+      continue;
+    }
+    try {
+      const bytes = await readFile(filePath);
+      return { filePath, dataUrl: `data:${mime};base64,${bytes.toString("base64")}` };
+    } catch {
+      // 单个文件读取失败视为未设置,继续查找。
+    }
+  }
+  return undefined;
+}
+
+async function chooseConversationWallpaper(
+  targetWindow: BrowserWindow | null | undefined,
+): Promise<{ dataUrl: string } | undefined> {
+  const parent =
+    targetWindow && !targetWindow.isDestroyed() ? targetWindow : undefined;
+  const result = await dialog.showOpenDialog(parent, {
+    properties: ["openFile"],
+    title: "选择对话区背景图",
+    filters: [
+      {
+        name: "图片",
+        extensions: Object.keys(CONVERSATION_WALLPAPER_MIME_BY_EXT).map((ext) =>
+          ext.slice(1),
+        ),
+      },
+    ],
+  });
+  const chosen = result.filePaths[0];
+  if (!chosen) {
+    return undefined;
+  }
+  const ext = `.${(chosen.split(".").pop() ?? "").toLowerCase()}`;
+  const mime = CONVERSATION_WALLPAPER_MIME_BY_EXT[ext];
+  if (!mime) {
+    return undefined;
+  }
+  const fileStat = await stat(chosen);
+  if (fileStat.size > CONVERSATION_WALLPAPER_MAX_BYTES) {
+    throw new Error("wallpaper-too-large");
+  }
+  // 覆盖旧图:目录内只保留一张 custom-wallpaper.*。
+  await rm(getConversationWallpaperDir(), { recursive: true, force: true });
+  await mkdir(getConversationWallpaperDir(), { recursive: true });
+  const storedName = `${CONVERSATION_WALLPAPER_FILE_BASE}${ext}`;
+  await copyFile(chosen, join(getConversationWallpaperDir(), storedName));
+  const bytes = await readFile(join(getConversationWallpaperDir(), storedName));
+  return { dataUrl: `data:${mime};base64,${bytes.toString("base64")}` };
+}
+
+async function clearConversationWallpaper(): Promise<void> {
+  await rm(getConversationWallpaperDir(), { recursive: true, force: true });
 }
 
 /**
@@ -636,6 +735,15 @@ export async function executeDesktopCommand(options: {
     case DesktopCommandIds.OpenIssueTracker:
       await openIssueTracker(options.logger, targetWindow);
       return;
+    case DesktopCommandIds.ChooseConversationWallpaper:
+      return chooseConversationWallpaper(targetWindow);
+    case DesktopCommandIds.ClearConversationWallpaper:
+      await clearConversationWallpaper();
+      return;
+    case DesktopCommandIds.GetConversationWallpaper: {
+      const stored = await findStoredConversationWallpaper();
+      return stored ? { dataUrl: stored.dataUrl } : undefined;
+    }
     case DesktopCommandIds.ExportLogs:
       await exportLogs();
       return;

@@ -15,6 +15,7 @@ import {
   setStreamClientId,
   setReactErrorArmsReporter,
 } from "@zcode/ui";
+import { loadConversationWallpaper } from "@zcode/ui/conversation-wallpaper";
 import "@zcode/ui/styles.css";
 import { connectViaMessagePort, createMessagePortServiceConnection } from "@zcode/client";
 import {
@@ -142,6 +143,9 @@ let baseServicesForRemoteSessions: IServiceAccessor | null = null;
 const pendingRemoteWorkspaceServicePorts: RemoteWorkspaceServicePortRegistration[] = [];
 
 const desktopPlatform = createDesktopPlatform({ isLocalDevelopmentRuntime });
+// 定制版 fork:恢复用户自定义对话区背景图(存在时以 CSS 变量覆盖默认壁纸)。
+// 命令不可用或读取失败时静默保持默认壁纸,不阻塞首屏。
+void loadConversationWallpaper(desktopPlatform);
 initializeDesktopLocalTtft(desktopPlatform);
 initializeDesktopUserActionTrace({
   platform: desktopPlatform,

@@ -1,9 +1,16 @@
 import type { Theme } from "@/useTheme.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { resolveTheme } from "@/useTheme.js";
+import { Button } from "@/components/ui/button.js";
 import { Card, CardContent } from "@/components/ui/card.js";
 import { Input } from "@/components/ui/input.js";
 import { Switch } from "@/components/ui/switch.js";
+import {
+  applyConversationWallpaper,
+  type ConversationWallpaperResult,
+} from "@/conversationWallpaper.js";
+import { usePlatform } from "@/hooks/usePlatform.js";
+import { DesktopCommandIds } from "@zcode/shared";
 import {
   Select,
   SelectContent,
@@ -74,6 +81,92 @@ function FontSizeInput({
       <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-ui-lg text-foreground-subtle">
         px
       </span>
+    </div>
+  );
+}
+
+function ConversationWallpaperControl() {
+  const { intl } = useZCodeIntl();
+  const platform = usePlatform();
+  // unknown = 启动查询中;boolean = 是否已设置自定义壁纸
+  const [customActive, setCustomActive] = useState<boolean | undefined>(undefined);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    let cancelled = false;
+    void platform
+      .executeDesktopCommand(DesktopCommandIds.GetConversationWallpaper)
+      .then((result) => {
+        if (!cancelled) {
+          setCustomActive(Boolean((result as ConversationWallpaperResult | undefined)?.dataUrl));
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setCustomActive(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [platform]);
+
+  const choose = async () => {
+    setBusy(true);
+    setError(undefined);
+    try {
+      const result = (await platform.executeDesktopCommand(
+        DesktopCommandIds.ChooseConversationWallpaper,
+      )) as ConversationWallpaperResult | undefined;
+      if (result?.dataUrl) {
+        applyConversationWallpaper(result.dataUrl);
+        setCustomActive(true);
+      }
+    } catch {
+      setError(intl.formatMessage({ id: "settings.appearance.wallpaperTooLarge" }));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const reset = async () => {
+    setBusy(true);
+    setError(undefined);
+    try {
+      await platform.executeDesktopCommand(DesktopCommandIds.ClearConversationWallpaper);
+      applyConversationWallpaper(undefined);
+      setCustomActive(false);
+    } catch {
+      // 清除失败不改变当前壁纸,仅复位按钮态。
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-2">
+      {customActive !== undefined && customActive ? (
+        <span className="text-ui-sm text-foreground-subtle">
+          {intl.formatMessage({ id: "settings.appearance.wallpaperCustom" })}
+        </span>
+      ) : null}
+      <Button variant="outline" size="sm" disabled={busy || customActive === undefined} onClick={() => void choose()}>
+        {intl.formatMessage({ id: "settings.appearance.wallpaperChoose" })}
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        disabled={busy || !customActive}
+        onClick={() => void reset()}
+      >
+        {intl.formatMessage({ id: "settings.appearance.wallpaperReset" })}
+      </Button>
+      {error ? (
+        <span className="text-ui-sm text-destructive" role="alert">
+          {error}
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -151,6 +244,13 @@ export function AppearanceSectionContent({
                   ariaLabel={intl.formatMessage({ id: "settings.uiFontSize" })}
                 />
               }
+            />
+            <SettingsRow
+              label={intl.formatMessage({ id: "settings.appearance.wallpaper" })}
+              description={intl.formatMessage({
+                id: "settings.appearance.wallpaperDescription",
+              })}
+              control={<ConversationWallpaperControl />}
             />
           </CardContent>
         </Card>
