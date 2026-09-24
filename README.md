@@ -269,12 +269,12 @@ Issue 反馈入口:帮助菜单的「问题反馈」在 `config/default.json` �
 | PDF 处理                      | ✅ 已装 | community-skills 插件 · pdf-converter / pdf-extraction / pdf-merge-split                       | 格式互转、内容提取、合并拆分                                                            |
 | 图片搜索                      | ✅ 已装 | community-skills 插件 · unsplash                                                              | 来自 [cevatkerim/skills](https://github.com/cevatkerim/skills)(MIT);首次使用需免费 Unsplash API key |
 | 网页自动化                    | ✅ 内置 | 本仓库 `apps/zcode-cli/packages/browser-use-plugin`(Apache-2.0,随 glm 打包)                  | 源码随仓库提供,无需额外安装                                                            |
-| OS 级键鼠自动化               | ✅ 保留 | 官方 computer-use 插件(Apache-2.0 许可,允许再分发)                                          | 插件技能可用;闭源原生 CUA 通道不可用,属已知差异                                        |
+| OS 级键鼠自动化               | ⚠️ 保留 | 官方 computer-use 插件(Z.ai 出品,plugin.json 声明 MIT;无随附许可文本、源码未公开、不在公开市场目录) | 介意来源非社区可移除;闭源原生 CUA 通道不可用 |
 | Node REPL 宿主                | ✅ 内置 | 本仓库 `node-repl-host` 包                                                                    | browser-use / computer-use 的运行宿主                                                   |
 | 动态工作流使用指南            | 未装   | —                                                                                             | CreateWorkflow 功能已内置,使用说明技能暂缺,需要时从官方安装目录复制或自写             |
 | skill / 插件创作辅助          | 未装   | —                                                                                             | 低频;直接手写 SKILL.md 即可                                                            |
 
-安装方式(纯配置,无代码修改):技能打包为本地插件 `community-skills`,位于隔离数据根 `~/.zcode-sakura-home/zcode-plugins/community-skills`,通过 `~/.zcode-sakura-home/.zcode/cli/config.json` 的 `plugins.dirs` 注册(inline 插件默认启用),与闭源版互不可见。官方市场里许可证为 Apache-2.0/MIT 的插件(browser-use、node-repl-host、computer-use)保留使用。
+安装方式(纯配置,无代码修改):技能打包为本地插件 `community-skills`,位于隔离数据根 `~/.zcode-sakura-home/zcode-plugins/community-skills`,通过 `~/.zcode-sakura-home/.zcode/cli/config.json` 的 `plugins.dirs` 注册(inline 插件默认启用),与闭源版互不可见。browser-use、node-repl-host 为仓库自带开源插件;computer-use 为 Z.ai 官方下发(plugin.json 声明 MIT,无随附许可文本),介意可移除。
 
 许可说明:community-skills 内所有技能为 MIT 许可,可自由分发;每个技能目录附 `SOURCE.txt` 标注上游仓库。
 
