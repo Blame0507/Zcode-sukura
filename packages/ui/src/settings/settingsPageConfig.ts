@@ -7,6 +7,8 @@ import {
   Bot,
   Palette,
   Sun,
+  Flower,
+  Waves,
   BarChart3,
   Terminal,
   AlarmClock,
@@ -29,6 +31,8 @@ export const THEME_MODES: Array<{
   { mode: "system", icon: Monitor },
   { mode: "zai-dark", icon: Moon },
   { mode: "zai-light", icon: Sun },
+  { mode: "sakura", icon: Flower },
+  { mode: "deepseek", icon: Waves },
 ];
 
 type SettingsSectionGroupId = "basics" | "agentCapabilities" | "dataAndStats";

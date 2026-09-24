@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 
-export type Theme = "light" | "dark" | "zai-light" | "zai-dark" | "sakura" | "system";
+export type Theme = "light" | "dark" | "zai-light" | "zai-dark" | "sakura" | "deepseek" | "system";
 export type ResolvedTheme = "light" | "dark";
 
 const STORAGE_KEY = "zcode-theme";
@@ -15,7 +15,8 @@ export function resolveTheme(theme: Theme): ResolvedTheme {
     return getSystemTheme();
   }
 
-  return theme === "dark" || theme === "zai-dark" ? "dark" : "light";
+  // deepseek 为深海蓝暗色观感,按暗色解析(标题栏/浏览器表面跟随)。
+  return theme === "dark" || theme === "zai-dark" || theme === "deepseek" ? "dark" : "light";
 }
 
 export function normalizeThemePreference(theme: Theme): Theme {
@@ -83,6 +84,7 @@ export function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle("theme-zai-light", appliedTheme === "zai-light");
   document.documentElement.classList.toggle("theme-zai-dark", appliedTheme === "zai-dark");
   document.documentElement.classList.toggle("theme-sakura", appliedTheme === "sakura");
+  document.documentElement.classList.toggle("theme-deepseek", appliedTheme === "deepseek");
   enableThemeSwitchTransition();
   syncBrowserThemeSurface(resolved);
 }
@@ -94,6 +96,7 @@ function isTheme(value: string | null): value is Theme {
     value === "zai-light" ||
     value === "zai-dark" ||
     value === "sakura" ||
+    value === "deepseek" ||
     value === "system"
   );
 }

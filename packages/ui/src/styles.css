@@ -2317,3 +2317,176 @@ html.theme-switching *::after {
   filter: blur(3px) saturate(1.06);
   opacity: 0.45;
 }
+
+
+/* ===== ZCode Sakura fork 定制:DeepSeek 深海蓝主题 ===== */
+/* 配色取自用户提供参考图:深海夜蓝 #0D2B5E 系,亮蓝强调 #5EC8F5,金色点缀 #E8C98F;深色观感。 */
+.theme-deepseek {
+  --animated-gradient-text-strong: rgba(234, 242, 255, 1);
+  --animated-gradient-text-soft: rgba(234, 242, 255, 0.22);
+  --color-background: #0a1e3f;
+  --color-background-win-alt: #081834;
+  --color-background-alt: color-mix(in oklab, var(--color-background) 70%, transparent);
+  --color-brand: #4d9fe8;
+  --color-trajectory-user: #60a5fa;
+  --color-trajectory-assistant: #34d399;
+  --color-trajectory-reasoning: #a78bfa;
+  --color-trajectory-tool-call: #fbbf24;
+  --color-trajectory-tool-result: #38bdf8;
+  --color-workflow-rule: rgba(234, 242, 255, 0.06);
+  --color-workflow-trace: rgba(234, 242, 255, 0.3);
+  --color-workflow-trace-strong: rgba(234, 242, 255, 0.55);
+  --color-accent: #16386b;
+  --color-find-highlight: #1d3f70;
+  --color-find-highlight-active: #e8c98f;
+  --color-border: rgba(154, 199, 245, 0.16);
+  --color-border-hover: rgba(154, 199, 245, 0.26);
+  --color-hover: rgba(77, 159, 232, 0.08);
+  --color-selected: rgba(77, 159, 232, 0.14);
+  --color-header: #132e5c;
+  --color-panel: #132e5c;
+  --color-sidebar: #0c2450;
+  --color-surface: #102a55;
+  --color-surface-hover: rgba(234, 242, 255, 0.05);
+  --color-card: #122c58;
+  --color-card-selected: var(--color-input);
+  --color-card-border: var(--color-border);
+  --color-popover: #142f5e;
+  --color-popover-foreground: var(--color-foreground);
+  --color-popover-header: #16386b;
+  --color-popover-border: var(--color-border);
+  --color-input: #0e2750;
+  --color-input-focused: var(--color-input);
+  --color-input-border: var(--color-border);
+  --color-input-border-hover: var(--color-border-hover);
+  --color-input-border-focused: var(--color-border-hover);
+  --color-terminal-bg: var(--color-background);
+  --color-terminal-fg: var(--color-foreground);
+  --color-terminal-cursor: #5ec8f5;
+  --color-terminal-cursor-accent: var(--color-background);
+  --color-terminal-selection: rgba(77, 159, 232, 0.28);
+  --color-terminal-selection-inactive: rgba(234, 242, 255, 0.1);
+  --color-terminal-black: #5c6c82;
+  --color-terminal-red: #ff6b6b;
+  --color-terminal-green: #46bf72;
+  --color-terminal-yellow: #ffcf5c;
+  --color-terminal-blue: #5ec8f5;
+  --color-terminal-magenta: #b9a3fb;
+  --color-terminal-cyan: #56d4d4;
+  --color-terminal-white: #8fa3bd;
+  --color-terminal-bright-black: #6e809a;
+  --color-terminal-bright-red: #ff8585;
+  --color-terminal-bright-green: #5fdd8a;
+  --color-terminal-bright-yellow: #ffe082;
+  --color-terminal-bright-blue: #7fd4f9;
+  --color-terminal-bright-magenta: #cbb8fe;
+  --color-terminal-bright-cyan: #7ee4e4;
+  --color-terminal-bright-white: #eaf2ff;
+  --color-usage-chart-1: #4d9fe8;
+  --color-usage-chart-2: #46bf72;
+  --color-usage-chart-3: #a78bfa;
+  --color-usage-chart-4: #ff6b6b;
+  --color-usage-chart-5: #ffcf5c;
+  --color-usage-chart-6: #56d4d4;
+  --color-context-breakdown-1: #2e5fa3;
+  --color-context-breakdown-2: #3d7cc4;
+  --color-context-breakdown-3: #4d9fe8;
+  --color-context-breakdown-4: #6fb4ef;
+  --color-context-breakdown-5: #93c9f3;
+  --color-context-breakdown-6: #b7ddf7;
+  --color-context-breakdown-7: #d9ecfb;
+  --color-usage-heatmap-0: color-mix(in oklab, #4d9fe8 0%, var(--color-surface));
+  --color-usage-heatmap-1: color-mix(in oklab, #4d9fe8 18%, var(--color-surface));
+  --color-usage-heatmap-2: color-mix(in oklab, #4d9fe8 36%, var(--color-surface));
+  --color-usage-heatmap-3: color-mix(in oklab, #4d9fe8 58%, var(--color-surface));
+  --color-usage-heatmap-4: color-mix(in oklab, #2e5fa3 82%, var(--color-surface));
+  --color-tab: #0c2450;
+  --color-tab-active: #16386b;
+  --color-tab-border: var(--color-border);
+  --color-menu: #142f5e;
+  --color-menu-hover: #1b3a6e;
+  --color-primary: #3d8fd9;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #16386b;
+  --color-interaction-ask-surface: #10305e;
+  --color-interaction-ask-foreground: #5ec8f5;
+  --color-interaction-ask-fill: rgba(70, 191, 114, 0.2);
+  --color-interaction-confirmation-surface: #0f3b2c;
+  --color-interaction-confirmation-foreground: #6ee7a8;
+  --color-foreground: #eaf2ff;
+  --color-foreground-subtle: color-mix(in oklab, #eaf2ff 60%, transparent);
+  --color-foreground-subtlest: color-mix(in oklab, #eaf2ff 38%, transparent);
+  --color-foreground-inverse: #06183a;
+  --color-success: #46bf72;
+  --color-success-foreground: #06240f;
+  --color-idle-task: #a78bfa;
+  --color-idle-task-surface: #1c2350;
+  --color-destructive: #ff5c5c;
+  --color-destructive-foreground: #ffffff;
+  --color-warning: #ff8a30;
+  --color-feedback-privacy-hint: var(--color-yellow-600);
+  --color-warning-foreground: #241000;
+  --color-diff-added: #46bf72;
+  --color-diff-added-foreground: #06240f;
+  --color-diff-removed: #ff5c5c;
+  --color-diff-removed-foreground: #2a0505;
+  --color-git-none: var(--color-foreground);
+  --color-git-modified: #ffcf5c;
+  --color-git-added: #46bf72;
+  --color-git-deleted: #ff6b6b;
+  --color-git-renamed: #5ec8f5;
+  --color-git-untracked: #46bf72;
+  --color-git-ignored: var(--color-foreground-subtlest);
+  --color-git-descendant: #ffcf5c;
+  --color-toast: #142f5e;
+  --color-tooltip: #16386b;
+  --color-tooltip-foreground: #eaf2ff;
+  --color-tooltip-tag: #1b3a6e;
+  --color-tooltip-tag-foreground: #8fb8e0;
+  --color-tag: #1b3a6e;
+  --color-file-node: rgba(94, 200, 245, 0.12);
+  --color-file-node-hover: rgba(94, 200, 245, 0.2);
+  --color-file-node-foreground: #7fd4f9;
+  --color-skill-node: rgba(167, 139, 250, 0.12);
+  --color-skill-node-hover: rgba(167, 139, 250, 0.2);
+  --color-skill-node-foreground: #b9a3fb;
+  --color-command-node: rgba(143, 163, 189, 0.12);
+  --color-command-node-hover: rgba(143, 163, 189, 0.2);
+  --color-command-node-foreground: #a7bcd6;
+  --color-subagent-node: rgba(255, 207, 92, 0.12);
+  --color-subagent-node-hover: rgba(255, 207, 92, 0.2);
+  --color-subagent-node-foreground: #ffcf5c;
+  --color-session-node: rgba(86, 212, 212, 0.12);
+  --color-session-node-hover: rgba(86, 212, 212, 0.2);
+  --color-session-node-foreground: #7ee4e4;
+  --color-plugin-node: rgba(77, 159, 232, 0.12);
+  --color-plugin-node-hover: rgba(77, 159, 232, 0.2);
+  --color-plugin-node-foreground: #6fb4ef;
+  --color-plugin-paid-plan-badge: #2c2213;
+  --color-plugin-paid-plan-badge-foreground: #e8c98f;
+  scrollbar-color: #2e5fa3 transparent;
+}
+
+/* DeepSeek 主题:对话区深海渐变 + 参考图壁纸层(与樱花壁纸同一套自定义覆盖变量) */
+.theme-deepseek [data-workspace-conversation-frame] {
+  background: linear-gradient(180deg, #0b2148 0%, #0d2b5e 48%, #081a3a 100%);
+}
+
+.theme-deepseek [data-workspace-conversation-frame]::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  pointer-events: none;
+  /* 用户自定义背景图与樱花主题共用同一 CSS 变量,未设置时回落 DeepSeek 内置壁纸。 */
+  background-image: var(--zcode-conversation-wallpaper, url("./assets/deepseek-bg.png"));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  filter: blur(3px) saturate(1.05);
+  opacity: 0.4;
+}
+
+/* DeepSeek 主题:品牌按钮亮蓝渐变 */
+.theme-deepseek .bg-primary {
+  background-image: linear-gradient(135deg, #5ec8f5 0%, #2e5fa3 100%);
+}
