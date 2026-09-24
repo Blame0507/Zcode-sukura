@@ -75,7 +75,7 @@ function registerE2EStoreBridgesIfEnabled() {
 
 // 初始化主题：默认 Zai dark，后续由 useTheme hook 接管
 {
-  const saved = localStorage.getItem("zcode-theme") || "zai-dark";
+  const saved = localStorage.getItem("zcode-theme") || "sakura";
   const resolved =
     saved === "system"
       ? window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -97,6 +97,7 @@ function registerE2EStoreBridgesIfEnabled() {
   if (resolved === "dark") document.documentElement.classList.add("dark");
   document.documentElement.classList.toggle("theme-zai-light", appliedTheme === "zai-light");
   document.documentElement.classList.toggle("theme-zai-dark", appliedTheme === "zai-dark");
+  document.documentElement.classList.toggle("theme-sakura", appliedTheme === "sakura");
 }
 
 const isMacDesktop = navigator.userAgent.includes("Mac");

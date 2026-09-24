@@ -16,6 +16,7 @@ import {
   buildZCodeEndpointUrls,
   getCommunityUrlFromConfigs,
   getFeedbackUrlFromConfig,
+  getIssuesUrlFromConfig,
   resolveHelpAppConfig,
   normalizeZCodeEndpointOrigin,
   resolveZCodeEndpointOrigin,
@@ -282,6 +283,29 @@ async function openCommunity(
     return;
   }
   await shell.openExternal(communityUrl);
+}
+
+/**
+ * 定制版 fork 的 Issue 入口:本地 config/default.json 配置了 issues_url 时打开
+ * 上游仓库的 GitHub Issue 页;未配置则回落到原有反馈表单,保持官方行为不变。
+ */
+async function openIssueTracker(
+  logger: {
+    warn: (...args: unknown[]) => void;
+  },
+  targetWindow?: BrowserWindow | null,
+) {
+  let issuesUrl: string | undefined;
+  try {
+    issuesUrl = getIssuesUrlFromConfig(await readLocalAppConfig());
+  } catch (error) {
+    logger.warn("[issue-tracker] failed to read local config:", error);
+  }
+  if (issuesUrl) {
+    await shell.openExternal(issuesUrl);
+    return;
+  }
+  resolveTargetWindow(targetWindow)?.webContents.send(PlatformChannels.OpenFeedbackDialog);
 }
 
 async function promptCustomZCodeEndpoint(
@@ -608,6 +632,9 @@ export async function executeDesktopCommand(options: {
         options.logger,
         options.fetchHelpConfig,
       );
+      return;
+    case DesktopCommandIds.OpenIssueTracker:
+      await openIssueTracker(options.logger, targetWindow);
       return;
     case DesktopCommandIds.ExportLogs:
       await exportLogs();

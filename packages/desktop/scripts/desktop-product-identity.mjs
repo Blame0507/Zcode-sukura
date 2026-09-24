@@ -7,10 +7,12 @@ export const ZCODE_PREVIEW_IDENTITY_ENV = "ZCODE_PREVIEW_IDENTITY";
 
 const PRODUCTION_IDENTITY = Object.freeze({
   flavor: "production",
-  appId: "dev.zcode.app",
-  productName: "ZCode",
-  linuxExecutableName: "zcode",
-  linuxPackageName: "zcode",
+  // 定制版 fork 身份:独立的 appId / productName,与官方闭源版并排安装互不覆盖,
+  // 开始菜单 AUMID、安装目录、更新缓存全部分离。
+  appId: "dev.zcode.app.sakura",
+  productName: "ZCode Sakura",
+  linuxExecutableName: "zcode-sakura",
+  linuxPackageName: "zcode-sakura",
   cuaHelperInstallVariant: null,
 });
 

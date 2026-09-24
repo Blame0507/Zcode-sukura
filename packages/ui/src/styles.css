@@ -2051,3 +2051,267 @@ body {
 .prompt-mention[data-mention-category="plugins"]::before {
   border-radius: var(--radius-sm);
 }
+
+
+/* ===== ZCode Sakura fork 定制:樱花主题(以下整段为 fork 追加,升级时保留)===== */
+.theme-sakura {
+  --animated-gradient-text-strong: rgba(61, 39, 51, 1);
+  --animated-gradient-text-soft: rgba(61, 39, 51, 0.22);
+  --sakura-petal-a: #f7b8ca;
+  --sakura-petal-b: #fbd3de;
+  --color-background: #fbf3f5;
+  --color-background-win-alt: #f2dde1;
+  --color-background-alt: color-mix(in oklab, var(--color-background) 70%, transparent);
+  --color-brand: #d96b8a;
+  --color-trajectory-user: #2563eb;
+  --color-trajectory-assistant: #0f766e;
+  --color-trajectory-reasoning: #7c3aed;
+  --color-trajectory-tool-call: #d97706;
+  --color-trajectory-tool-result: #0284c7;
+  --color-workflow-rule: rgba(61, 39, 51, 0.06);
+  --color-workflow-trace: rgba(61, 39, 51, 0.3);
+  --color-workflow-trace-strong: rgba(61, 39, 51, 0.55);
+  --color-accent: #fce7ee;
+  --color-find-highlight: #ffeef3;
+  --color-find-highlight-active: #ffb26b;
+  --color-border: rgba(61, 39, 51, 0.12);
+  --color-border-hover: rgba(61, 39, 51, 0.18);
+  --color-hover: rgba(217, 107, 138, 0.06);
+  --color-selected: rgba(217, 107, 138, 0.1);
+  --color-header: #ffffff;
+  --color-panel: #ffffff;
+  --color-sidebar: #f7e6ec;
+  --color-surface: #fdf9fa;
+  --color-surface-hover: rgba(61, 39, 51, 0.05);
+  --color-card: #ffffff;
+  --color-card-selected: var(--color-input);
+  --color-card-border: var(--color-border);
+  --color-popover: #ffffff;
+  --color-popover-foreground: var(--color-foreground);
+  --color-popover-header: #faeef1;
+  --color-popover-border: var(--color-border);
+  --color-input: #ffffff;
+  --color-input-focused: var(--color-input);
+  --color-input-border: var(--color-border);
+  --color-input-border-hover: var(--color-border-hover);
+  --color-input-border-focused: var(--color-border-hover);
+  --color-terminal-bg: var(--color-background);
+  --color-terminal-fg: var(--color-foreground);
+  --color-terminal-cursor: #c2557d;
+  --color-terminal-cursor-accent: var(--color-background);
+  --color-terminal-selection: rgba(217, 107, 138, 0.22);
+  --color-terminal-selection-inactive: rgba(61, 39, 51, 0.1);
+  --color-terminal-black: #5c5c5c;
+  --color-terminal-red: #e03131;
+  --color-terminal-green: #1e8a3e;
+  --color-terminal-yellow: #e07b00;
+  --color-terminal-blue: #0b7fff;
+  --color-terminal-magenta: #9e77ed;
+  --color-terminal-cyan: #0aa7a7;
+  --color-terminal-white: #adadad;
+  --color-terminal-bright-black: #888888;
+  --color-terminal-bright-red: #e03131;
+  --color-terminal-bright-green: #1e8a3e;
+  --color-terminal-bright-yellow: #e07b00;
+  --color-terminal-bright-blue: #0066dd;
+  --color-terminal-bright-magenta: #9e77ed;
+  --color-terminal-bright-cyan: #0aa7a7;
+  --color-terminal-bright-white: #3d2733;
+  --color-usage-chart-1: #d96b8a;
+  --color-usage-chart-2: #1e8a3e;
+  --color-usage-chart-3: #9e77ed;
+  --color-usage-chart-4: #e03131;
+  --color-usage-chart-5: #e07b00;
+  --color-usage-chart-6: #0aa7a7;
+  --color-context-breakdown-1: #c2557d;
+  --color-context-breakdown-2: #d96b8a;
+  --color-context-breakdown-3: #e093ad;
+  --color-context-breakdown-4: #e7a9c0;
+  --color-context-breakdown-5: #efbfd3;
+  --color-context-breakdown-6: #f5d5e2;
+  --color-context-breakdown-7: #fae8ea;
+  --color-usage-heatmap-0: color-mix(in oklab, #d96b8a 0%, var(--color-surface));
+  --color-usage-heatmap-1: color-mix(in oklab, #d96b8a 18%, var(--color-surface));
+  --color-usage-heatmap-2: color-mix(in oklab, #d96b8a 36%, var(--color-surface));
+  --color-usage-heatmap-3: color-mix(in oklab, #d96b8a 58%, var(--color-surface));
+  --color-usage-heatmap-4: color-mix(in oklab, #c2557d 82%, var(--color-surface));
+  --color-tab: #f7e6ec;
+  --color-tab-active: #ffffff;
+  --color-tab-border: var(--color-border);
+  --color-menu: #ffffff;
+  --color-menu-hover: #f7e6ec;
+  --color-primary: #d96b8a;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f9e7ec;
+  --color-interaction-ask-surface: #ebf4ff;
+  --color-interaction-ask-foreground: #0066dd;
+  --color-interaction-ask-fill: rgba(70, 191, 114, 0.2);
+  --color-interaction-confirmation-surface: #eaf7ee;
+  --color-interaction-confirmation-foreground: #166b32;
+  --color-foreground: #3d2733;
+  --color-foreground-subtle: color-mix(in oklab, #3d2733 60%, transparent);
+  --color-foreground-subtlest: color-mix(in oklab, #3d2733 40%, transparent);
+  --color-foreground-inverse: #ffffff;
+  --color-success: #1e8a3e;
+  --color-success-foreground: #ffffff;
+  --color-idle-task: #9e77ed;
+  --color-idle-task-surface: #f5f3ff;
+  --color-destructive: #e03131;
+  --color-destructive-foreground: #ffffff;
+  --color-warning: #e07b00;
+  --color-feedback-privacy-hint: var(--color-yellow-600);
+  --color-warning-foreground: #ffffff;
+  --color-diff-added: #1e8a3e;
+  --color-diff-added-foreground: #ffffff;
+  --color-diff-removed: #e03131;
+  --color-diff-removed-foreground: #ffffff;
+  --color-git-none: var(--color-foreground);
+  --color-git-modified: #e07b00;
+  --color-git-added: #1e8a3e;
+  --color-git-deleted: #e03131;
+  --color-git-renamed: #0b7fff;
+  --color-git-untracked: #1e8a3e;
+  --color-git-ignored: var(--color-foreground-subtlest);
+  --color-git-descendant: #e07b00;
+  --color-toast: #ffffff;
+  --color-tooltip: #fdeef2;
+  --color-tooltip-foreground: #3d2733;
+  --color-tooltip-tag: #f3dce2;
+  --color-tooltip-tag-foreground: #94637a;
+  --color-tag: #f3dce2;
+  --color-file-node: rgba(26, 112, 184, 0.1);
+  --color-file-node-hover: rgba(26, 112, 184, 0.16);
+  --color-file-node-foreground: #1a70b8;
+  --color-skill-node: rgba(116, 83, 176, 0.1);
+  --color-skill-node-hover: rgba(116, 83, 176, 0.16);
+  --color-skill-node-foreground: #7453b0;
+  --color-command-node: rgba(86, 98, 112, 0.1);
+  --color-command-node-hover: rgba(86, 98, 112, 0.16);
+  --color-command-node-foreground: #566270;
+  --color-subagent-node: rgba(111, 122, 47, 0.1);
+  --color-subagent-node-hover: rgba(111, 122, 47, 0.16);
+  --color-subagent-node-foreground: #6f7a2f;
+  --color-session-node: rgba(20, 128, 122, 0.1);
+  --color-session-node-hover: rgba(20, 128, 122, 0.16);
+  --color-session-node-foreground: #14807a;
+  --color-plugin-node: rgba(184, 122, 26, 0.1);
+  --color-plugin-node-hover: rgba(184, 122, 26, 0.16);
+  --color-plugin-node-foreground: #b87a1a;
+  --color-plugin-paid-plan-badge: #ffe3c8;
+  --color-plugin-paid-plan-badge-foreground: #4b280f;
+  scrollbar-color: #e8b7c6 transparent;
+}
+
+.theme-sakura ::selection {
+  background-color: rgba(217, 107, 138, 0.22);
+}
+
+.theme-sakura [data-workspace-conversation-frame] {
+  background: linear-gradient(180deg, #fdf9fa 0%, #faeef1 48%, #f6dfe6 100%);
+}
+
+.theme-sakura .bg-primary {
+  background-image: linear-gradient(135deg, #e87a9e 0%, #c2557d 100%);
+}
+
+.sakura-petal-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout style paint;
+  animation: sakura-layer-fade-in 900ms ease-out both;
+}
+
+.sakura-petal {
+  position: absolute;
+  top: 0;
+  left: var(--sakura-x);
+  width: var(--sakura-size);
+  height: var(--sakura-size);
+  border-radius: 100% 0 100% 0;
+  background: linear-gradient(135deg, var(--sakura-petal-b, #fbd3de), var(--sakura-petal-a, #f7b8ca));
+  opacity: var(--sakura-opacity, 0.6);
+  will-change: transform;
+  animation: sakura-fall var(--sakura-duration) linear var(--sakura-delay) infinite;
+}
+
+.sakura-petal-inner {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  will-change: transform;
+  animation: sakura-sway var(--sakura-sway-duration) ease-in-out var(--sakura-delay) infinite
+    alternate;
+}
+
+@keyframes sakura-fall {
+  from {
+    transform: translate3d(0, -8vh, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(0, 110vh, 0) rotate(320deg);
+  }
+}
+
+@keyframes sakura-sway {
+  from {
+    transform: translateX(calc(-1 * var(--sakura-sway, 18px))) rotate(-24deg);
+  }
+  to {
+    transform: translateX(var(--sakura-sway, 18px)) rotate(24deg);
+  }
+}
+
+@keyframes sakura-layer-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+html.theme-switching,
+
+html.theme-switching *,
+
+html.theme-switching *::before,
+
+html.theme-switching *::after {
+  transition:
+    background-color 240ms ease,
+    border-color 240ms ease,
+    color 240ms ease,
+    fill 240ms ease,
+    stroke 240ms ease,
+    box-shadow 240ms ease,
+    opacity 240ms ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sakura-petal-layer {
+    display: none;
+  }
+
+  html.theme-switching,
+  html.theme-switching *,
+  html.theme-switching *::before,
+  html.theme-switching *::after {
+    transition: none !important;
+  }
+}
+
+.theme-sakura [data-workspace-conversation-frame]::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  pointer-events: none;
+  background-image: url("./assets/sakura-bg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  filter: blur(3px) saturate(1.06);
+  opacity: 0.45;
+}

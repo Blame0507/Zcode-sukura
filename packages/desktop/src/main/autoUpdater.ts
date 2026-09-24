@@ -1,6 +1,7 @@
 /* eslint-disable max-lines -- autoUpdater 需要集中维护 Electron 事件、菜单状态与 IPC 交互，过度拆分会让更新状态流更难追踪 */
-import type { ISettingService } from "@zcode/services";
-import {
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+import type { ISettingService } from "@zcode/services";import {
   DEFAULT_LOCALE,
   DEFAULT_ZCODE_ENDPOINT_ORIGIN,
   desktopMenuMessageIds,
@@ -116,6 +117,40 @@ interface InitAutoUpdaterOptions {
   updateFeedSource?: RuntimeUpdateFeedSource;
   deviceMid?: string;
   resolveEndpointOrigin?: () => string | Promise<string>;
+}
+
+interface ForkUpdateFeedConfig {
+  provider: string;
+  owner: string;
+  repo: string;
+}
+
+/**
+ * 定制版 fork 的更新源配置,来自本地 config/default.json 的 update 块:
+ * - provider=github 且 owner/repo 齐全 → 更新检查指向自己的 GitHub Releases;
+ * - update 块存在但 owner/repo 为空 → 彻底禁用更新检查,不再访问官方发布服务;
+ * - 配置文件没有 update 块 → 返回 undefined,保持上游官方行为,便于日后合并上游。
+ */
+async function resolveForkUpdateFeedConfig(): Promise<ForkUpdateFeedConfig | undefined> {
+  try {
+    const configPath = app.isPackaged
+      ? join(process.resourcesPath, "config", "default.json")
+      : join(app.getAppPath(), "..", "..", "config", "default.json");
+    const raw: unknown = JSON.parse(await readFile(configPath, "utf-8"));
+    if (typeof raw !== "object" || raw === null || !("update" in raw)) {
+      return undefined;
+    }
+    const update = (raw as { update?: { provider?: unknown; owner?: unknown; repo?: unknown } })
+      .update;
+    return {
+      provider: typeof update?.provider === "string" ? update.provider : "",
+      owner: typeof update?.owner === "string" ? update.owner.trim() : "",
+      repo: typeof update?.repo === "string" ? update.repo.trim() : "",
+    };
+  } catch (error) {
+    logger.warn("[auto-update] failed to read local fork update config:", error);
+    return undefined;
+  }
 }
 
 let quitAndInstallInFlight = false;
@@ -1472,6 +1507,21 @@ export async function initAutoUpdater(options: InitAutoUpdaterOptions = {}): Pro
   autoUpdaterDisabledForProductFlavor = false;
   if (!canUseAutoUpdaterInCurrentRuntime()) return;
 
+  // fork 更新源裁决:必须先于 provider 挂载,未配置时直接禁用,
+  // 避免对官方发布服务发起任何请求(自建版本号永远落后官方通道)。
+  const forkUpdateFeed = await resolveForkUpdateFeedConfig();
+  if (forkUpdateFeed && !(forkUpdateFeed.owner && forkUpdateFeed.repo)) {
+    autoUpdaterDisabledForProductFlavor = true;
+    if (autoUpdatePollTimer) {
+      clearInterval(autoUpdatePollTimer);
+      autoUpdatePollTimer = null;
+    }
+    logger.info("[auto-update] fork update feed unconfigured; update checks disabled");
+    return;
+  }
+  const forkGithubFeedConfigured =
+    forkUpdateFeed?.provider === "github" && Boolean(forkUpdateFeed.owner && forkUpdateFeed.repo);
+
   onBeforeQuitAndInstall = options.onBeforeQuitAndInstall;
   if (options.locale) {
     menuLocale = options.locale;
@@ -1504,7 +1554,19 @@ export async function initAutoUpdater(options: InitAutoUpdaterOptions = {}): Pro
   // 这里仅在 Windows 关闭“退出即自动安装”，要求用户显式点更新；其他平台保持原有行为，避免改动既有升级链路。
   autoUpdater.autoInstallOnAppQuit = process.platform !== "win32";
   autoUpdater.logger = logger;
-  applyManifestUpdateProvider(options);
+  if (forkGithubFeedConfigured && forkUpdateFeed) {
+    // 指向自己仓库的 GitHub Releases;发布时需上传安装包 + latest.yml + blockmap。
+    autoUpdater.setFeedURL({
+      provider: "github",
+      owner: forkUpdateFeed.owner,
+      repo: forkUpdateFeed.repo,
+    });
+    logger.info(
+      `[auto-update] fork GitHub update feed applied: ${forkUpdateFeed.owner}/${forkUpdateFeed.repo}`,
+    );
+  } else {
+    applyManifestUpdateProvider(options);
+  }
 
   const triggerCheckForUpdates = (reason: string) => {
     if (checkForUpdatesInFlight) {

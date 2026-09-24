@@ -1,21 +1,21 @@
-# ZCode
+# ZCode Sakura
 
 <div align="center">
-  <img src="public/logo/icons/1024x1024.png" alt="ZCode" width="128" height="128" />
+  <img src="public/logo/icons/1024x1024.png" alt="ZCode Sakura" width="128" height="128" />
 </div>
-<p align="center">
-  <a href="https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=47ag983c-8fcb-4d6d-814b-5395193a712c&amp;qr_code=true">Feishu community</a> ·
-  <a href="https://discord.gg/z9aBcQXZQ3">Discord</a>
-</p>
 <p align="center">
   <a href="README.md">简体中文</a> | English
 </p>
 
+> **This fork's documentation is maintained in Chinese** — see [README.md](README.md) for the authoritative description of the Sakura fork (sakura theme, data isolation, community-skill policy, update channel, packaging). The English text below reflects the upstream project and is kept for reference; sections about the removed Web / CLI distribution targets do not apply to this fork.
+
 ZCode is an AI coding workspace with desktop, browser, and terminal interfaces. This repository contains the clients, backend services, shared UI, and Agent CLI and runtime source code.
 
-## Updates
-
-- 2026-9-23: Updated to ZCode v3.14.3.
+| Interface                    | Purpose                                                                                   | Development command            |
+| ---------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------ |
+| Desktop                      | Electron desktop application                                                              | `pnpm dev:desktop`             |
+| Web / ZCode CLI distribution | Terminal and browser workspace; packages the TUI, Web client, backend, and Agent together | `pnpm dev:web`                 |
+| Agent CLI                    | The `zcode` terminal interface, which also provides the Agent runtime for Desktop and Web | `pnpm --filter @zcode/cli dev` |
 
 ## Setup
 
