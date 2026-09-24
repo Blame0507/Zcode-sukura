@@ -257,22 +257,26 @@ Issue 反馈入口:帮助菜单的「问题反馈」在 `config/default.json` �
 
 应用内「检查更新」的更新源由 `config/default.json` 的 `update` 块控制:`owner`/`repo` 为空时**彻底禁用更新检查**(不对官方发布服务发起任何请求,避免自建版本号落后官方通道而收到无关推送);`--setup` 会写入你的 GitHub 仓库,重新打包后即从你的仓库 Releases 检查更新——发布时把 `ZCode-x.y.z-win-x64.exe`、`latest.yml`、`.exe.blockmap` 三个文件一起传到 Release 即可。
 
-## 定制版:推荐补齐的开源 Skill 清单
+## 定制版:已配置的社区 Skill 方案
 
-自建构建相对官方发行版,主要差距在官方插件生态。按下表优先级补齐,优先使用开源实现:
+自建构建不依赖官方市场的非开源插件(文档四件套、image-search、skill-creator 等为 Z.ai 非商业/无许可证内容),功能由社区开源 skill 补齐,也不用 anthropics 官方仓库。当前配置:
 
-| 功能                          | 优先级 | 推荐来源                                                                                       | 说明                                                                                     |
-| ----------------------------- | ------ | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Word/PDF/PPT/Excel 文档生产   | P0     | [anthropics/skills](https://github.com/anthropics/skills) 的 docx / pdf / pptx / xlsx           | 与官方"文档四件套"同源的开源实现,放入 skills 目录即可用(以仓库 LICENSE 为准)          |
-| 动态工作流使用指南            | P1     | 官方安装目录 `resources\glm\packages\bundled-skills\skills\dynamic-workflows`(本机已有)        | 工作流功能已内置,缺的只是 CreateWorkflow 的使用说明技能;个人使用可直接复制              |
-| 客户端配置诊断                | P1     | 参照官方 zcode-guide 技能结构自写                                                               | hooks / MCP / 插件 / 技能的排障技能,维护定制版时很有用                                    |
-| skill / 插件创作辅助          | P2     | anthropics/skills 的 creator 类技能或自写                                                       | 便利性工具,手写 SKILL.md 也可完全替代                                                    |
-| 图片搜索                      | P2     | 开源图片搜索 MCP(如 unsplash / pexels 系列社区 server)                                        | 通过设置页 MCP 配置接入,不依赖官方插件                                                   |
-| 网页自动化                    | 已内置 | 本仓库 `apps/zcode-cli/packages/browser-use-plugin`                                             | 源码随仓库提供,无需额外安装                                                              |
-| Computer Use(OS 级键鼠自动化) | P3     | 开源 computer-use 类 MCP                                                                       | 开源版 zcode-cua 为占位实现;网页场景已由 browser-use 覆盖,仅 OS 级操作需要替代           |
-| Android / iOS 模拟器控制      | P3     | 自写 adb / xcrun 包装 skill                                                                    | 需要移动端调试时再做                                                                      |
+| 功能                          | 状态   | 来源与位置                                                                                    | 说明                                                                                   |
+| ----------------------------- | ------ | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Word 文档                     | ✅ 已装 | community-skills 插件 · docx-manipulation                                                     | python-docx,来自 [claude-office-skills/skills](https://github.com/claude-office-skills/skills)(MIT) |
+| Excel 表格                    | ✅ 已装 | community-skills 插件 · xlsx-manipulation                                                     | openpyxl,同上                                                                          |
+| PPT 演示                      | ✅ 已装 | community-skills 插件 · pptx-manipulation + ai-slides                                         | python-pptx 直接产 .pptx;ai-slides 走 Marp 大纲成片                                    |
+| PDF 处理                      | ✅ 已装 | community-skills 插件 · pdf-converter / pdf-extraction / pdf-merge-split                       | 格式互转、内容提取、合并拆分                                                            |
+| 图片搜索                      | ✅ 已装 | community-skills 插件 · unsplash                                                              | 来自 [cevatkerim/skills](https://github.com/cevatkerim/skills)(MIT);首次使用需免费 Unsplash API key |
+| 网页自动化                    | ✅ 内置 | 本仓库 `apps/zcode-cli/packages/browser-use-plugin`(Apache-2.0,随 glm 打包)                  | 源码随仓库提供,无需额外安装                                                            |
+| OS 级键鼠自动化               | ✅ 保留 | 官方 computer-use 插件(Apache-2.0 许可,允许再分发)                                          | 插件技能可用;闭源原生 CUA 通道不可用,属已知差异                                        |
+| Node REPL 宿主                | ✅ 内置 | 本仓库 `node-repl-host` 包                                                                    | browser-use / computer-use 的运行宿主                                                   |
+| 动态工作流使用指南            | 未装   | —                                                                                             | CreateWorkflow 功能已内置,使用说明技能暂缺,需要时从官方安装目录复制或自写             |
+| skill / 插件创作辅助          | 未装   | —                                                                                             | 低频;直接手写 SKILL.md 即可                                                            |
 
-许可注意:本机 `~/.zcode/cli/plugins/cache/zcode-plugins-official` 下的官方插件为非商业许可(允许个人使用,禁止再分发)。个人自用可以直接复用这些缓存,但不要随定制版一起对外分发;上表中的开源来源没有此限制。
+安装方式(纯配置,无代码修改):技能打包为本地插件 `community-skills`,位于隔离数据根 `~/.zcode-sakura-home/zcode-plugins/community-skills`,通过 `~/.zcode-sakura-home/.zcode/cli/config.json` 的 `plugins.dirs` 注册(inline 插件默认启用),与闭源版互不可见。官方市场里许可证为 Apache-2.0/MIT 的插件(browser-use、node-repl-host、computer-use)保留使用。
+
+许可说明:community-skills 内所有技能为 MIT 许可,可自由分发;每个技能目录附 `SOURCE.txt` 标注上游仓库。
 
 ## 项目声明
 
