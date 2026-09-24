@@ -176,12 +176,5 @@ node scripts/update-from-upstream.mjs --uninstall-schedule
 - 本项目为个人定制的非官方分支,与 Z.ai 无隶属、合作或被背书关系;"ZCode" 名称与相关标识的权利归其权利人所有
 - **双许可**:上游派生部分遵循 Apache-2.0(见 [LICENSE](LICENSE) 与 [NOTICE.md](NOTICE.md));本分支的修改与新增部分(主题、品牌、数据隔离、壁纸设置、同步工具等)同时以 MIT 提供,见 [LICENSE-MIT](LICENSE-MIT)
 - 樱花壁纸 `sakura-bg.png` 与主题视觉为本分支自制原创素材;community-skills 插件内技能均为 MIT 许可,来源见各技能目录 `SOURCE.txt`
-- 提交历史使用 noreply 邮箱,不含个人信息
 
-## 发布前检查清单
 
-公开发布本仓库或安装包前,逐项确认:
-
-1. **品牌与命名**(可选):如需规避商标问题,可改名(如 "Sakura Code")并替换 Z 字图形;改名需同步 `desktop-product-identity.mjs`(appId/productName)与打包配置
-2. **安装包**:Release 挂载的 exe 会包含全套视觉素材与品牌命名,出包前完成上一步的决策
-3. **凭据与本地数据**:`~/.zcode-sakura-home` 与构建产物 `dist/` 永不提交、永不随包分发(当前已确认仓库内无任何凭据/个人信息)

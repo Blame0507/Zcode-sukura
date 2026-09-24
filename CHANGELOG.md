@@ -72,8 +72,3 @@
 - 保留许可证明确开源的插件:browser-use、node-repl-host(仓库自带)、computer-use(Apache-2.0)
 - 文档/表格/演示/PDF/图片搜索由 MIT 社区技能替代,打包为本地插件 `community-skills`(`plugins.dirs` 注册,隔离数据根内,与官方版互不可见),每个技能附 `SOURCE.txt` 标注上游
 
-### 工程与文档
-
-- 移除 Web / 独立命令行发行线及构建链,`pnpm-workspace`、根脚本、架构策略同步裁剪
-- README 重写:分支定位、特性总览、构建指引(含 Windows ELECTRON_MIRROR / winCodeSign 踩坑)、社区技能清单、非官方免责声明与发布前清理清单
-- 开源安全审查:工作树与 git 全历史无密钥/个人信息泄漏;已知待办(发布前):壁纸素材替换与历史清洗、提交邮箱改 noreply、产品改名评估
