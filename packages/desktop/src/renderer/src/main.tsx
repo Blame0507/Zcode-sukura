@@ -82,7 +82,7 @@ function registerE2EStoreBridgesIfEnabled() {
       ? window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light"
-      : saved === "dark" || saved === "zai-dark" || saved === "deepseek"
+      : saved === "dark" || saved === "zai-dark" || saved === "deepseek" || saved === "starrynight"
         ? "dark"
         : "light";
   const appliedTheme =
@@ -100,6 +100,7 @@ function registerE2EStoreBridgesIfEnabled() {
   document.documentElement.classList.toggle("theme-zai-dark", appliedTheme === "zai-dark");
   document.documentElement.classList.toggle("theme-sakura", appliedTheme === "sakura");
   document.documentElement.classList.toggle("theme-deepseek", appliedTheme === "deepseek");
+  document.documentElement.classList.toggle("theme-starrynight", appliedTheme === "starrynight");
 }
 
 const isMacDesktop = navigator.userAgent.includes("Mac");
