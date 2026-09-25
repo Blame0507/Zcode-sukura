@@ -82,7 +82,11 @@ function registerE2EStoreBridgesIfEnabled() {
       ? window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light"
-      : saved === "dark" || saved === "zai-dark" || saved === "deepseek" || saved === "starrynight"
+      : saved === "dark" ||
+          saved === "zai-dark" ||
+          saved === "deepseek" ||
+          saved === "starrynight" ||
+          saved === "duskglow"
         ? "dark"
         : "light";
   const appliedTheme =
@@ -101,6 +105,9 @@ function registerE2EStoreBridgesIfEnabled() {
   document.documentElement.classList.toggle("theme-sakura", appliedTheme === "sakura");
   document.documentElement.classList.toggle("theme-deepseek", appliedTheme === "deepseek");
   document.documentElement.classList.toggle("theme-starrynight", appliedTheme === "starrynight");
+  document.documentElement.classList.toggle("theme-duskglow", appliedTheme === "duskglow");
+  document.documentElement.classList.toggle("theme-blossom", appliedTheme === "blossom");
+  document.documentElement.classList.toggle("theme-forest", appliedTheme === "forest");
 }
 
 const isMacDesktop = navigator.userAgent.includes("Mac");
