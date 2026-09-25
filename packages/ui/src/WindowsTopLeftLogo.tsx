@@ -1,5 +1,5 @@
 import { cn } from "@/components/lib/utils.js";
-import zaiLogoUrl from "@/assets/provider-icons/logo-zai.svg";
+import { ZCodeLogo } from "@/ZCodeLogo.js";
 
 export function WindowsTopLeftLogo({
   className,
@@ -19,12 +19,7 @@ export function WindowsTopLeftLogo({
         className,
       )}
     >
-      <img
-        src={zaiLogoUrl}
-        alt="ZCode"
-        className={cn("pointer-events-none size-5 select-none", imageClassName)}
-        draggable={false}
-      />
+      <ZCodeLogo className={cn("size-5", imageClassName)} />
     </div>
   );
 }

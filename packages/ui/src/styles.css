@@ -2490,3 +2490,199 @@ html.theme-switching *::after {
 .theme-deepseek .bg-primary {
   background-image: linear-gradient(135deg, #5ec8f5 0%, #2e5fa3 100%);
 }
+
+
+/* ===== ZCode Sakura fork 定制:主题化应用 logo 变量 ===== */
+/* 默认(=官方黑,zai-light/zai-dark 直接使用);各主题在自己的 token 块内覆盖。 */
+:root {
+  --app-logo-from: #1a1a1a;
+  --app-logo-to: #151718;
+  --app-logo-ring: rgba(183, 188, 191, 0.9);
+}
+
+.theme-sakura {
+  --app-logo-from: #e87a9e;
+  --app-logo-to: #c2557d;
+  --app-logo-ring: rgba(255, 255, 255, 0.55);
+}
+
+.theme-deepseek {
+  --app-logo-from: #5ec8f5;
+  --app-logo-to: #2e5fa3;
+  --app-logo-ring: rgba(255, 255, 255, 0.4);
+}
+
+/* ===== ZCode Sakura fork 定制:星夜(Starry Night)主题 ===== */
+/* 配色取自用户参考图:雪山星空湖景夜景。夜空 #0B1026/#1E2A4A、湖面 #16213E、
+   雪山反光 #DCE7F2、星光 #E8EFF9、流星 #9FC4E8;深色观感。 */
+.theme-starrynight {
+  --animated-gradient-text-strong: rgba(232, 239, 249, 1);
+  --animated-gradient-text-soft: rgba(232, 239, 249, 0.22);
+  --app-logo-from: #c8dcf2;
+  --app-logo-to: #33507e;
+  --app-logo-ring: rgba(232, 239, 249, 0.45);
+  --color-background: #0b1226;
+  --color-background-win-alt: #080d1c;
+  --color-background-alt: color-mix(in oklab, var(--color-background) 70%, transparent);
+  --color-brand: #7fa8d9;
+  --color-trajectory-user: #60a5fa;
+  --color-trajectory-assistant: #34d399;
+  --color-trajectory-reasoning: #a78bfa;
+  --color-trajectory-tool-call: #fbbf24;
+  --color-trajectory-tool-result: #38bdf8;
+  --color-workflow-rule: rgba(232, 239, 249, 0.06);
+  --color-workflow-trace: rgba(232, 239, 249, 0.3);
+  --color-workflow-trace-strong: rgba(232, 239, 249, 0.55);
+  --color-accent: #1c2d55;
+  --color-find-highlight: #24365e;
+  --color-find-highlight-active: #9fc4e8;
+  --color-border: rgba(216, 231, 246, 0.15);
+  --color-border-hover: rgba(216, 231, 246, 0.26);
+  --color-hover: rgba(127, 168, 217, 0.08);
+  --color-selected: rgba(127, 168, 217, 0.14);
+  --color-header: #14203c;
+  --color-panel: #14203c;
+  --color-sidebar: #0d1526;
+  --color-surface: #121e38;
+  --color-surface-hover: rgba(232, 239, 249, 0.05);
+  --color-card: #14213e;
+  --color-card-selected: var(--color-input);
+  --color-card-border: var(--color-border);
+  --color-popover: #152341;
+  --color-popover-foreground: var(--color-foreground);
+  --color-popover-header: #1c2d55;
+  --color-popover-border: var(--color-border);
+  --color-input: #101b33;
+  --color-input-focused: var(--color-input);
+  --color-input-border: var(--color-border);
+  --color-input-border-hover: var(--color-border-hover);
+  --color-input-border-focused: var(--color-border-hover);
+  --color-terminal-bg: var(--color-background);
+  --color-terminal-fg: var(--color-foreground);
+  --color-terminal-cursor: #9fc4e8;
+  --color-terminal-cursor-accent: var(--color-background);
+  --color-terminal-selection: rgba(127, 168, 217, 0.28);
+  --color-terminal-selection-inactive: rgba(232, 239, 249, 0.1);
+  --color-terminal-black: #5c6c82;
+  --color-terminal-red: #ff6b6b;
+  --color-terminal-green: #46bf72;
+  --color-terminal-yellow: #ffcf5c;
+  --color-terminal-blue: #7fa8d9;
+  --color-terminal-magenta: #b9a3fb;
+  --color-terminal-cyan: #56d4d4;
+  --color-terminal-white: #8fa3bd;
+  --color-terminal-bright-black: #6e809a;
+  --color-terminal-bright-red: #ff8585;
+  --color-terminal-bright-green: #5fdd8a;
+  --color-terminal-bright-yellow: #ffe082;
+  --color-terminal-bright-blue: #9fc4e8;
+  --color-terminal-bright-magenta: #cbb8fe;
+  --color-terminal-bright-cyan: #7ee4e4;
+  --color-terminal-bright-white: #e8eff9;
+  --color-usage-chart-1: #7fa8d9;
+  --color-usage-chart-2: #46bf72;
+  --color-usage-chart-3: #a78bfa;
+  --color-usage-chart-4: #ff6b6b;
+  --color-usage-chart-5: #ffcf5c;
+  --color-usage-chart-6: #56d4d4;
+  --color-context-breakdown-1: #2e4a78;
+  --color-context-breakdown-2: #3d5d8c;
+  --color-context-breakdown-3: #527aa8;
+  --color-context-breakdown-4: #7fa8d9;
+  --color-context-breakdown-5: #abc4e2;
+  --color-context-breakdown-6: #cddced;
+  --color-context-breakdown-7: #e2ecf6;
+  --color-usage-heatmap-0: color-mix(in oklab, #7fa8d9 0%, var(--color-surface));
+  --color-usage-heatmap-1: color-mix(in oklab, #7fa8d9 18%, var(--color-surface));
+  --color-usage-heatmap-2: color-mix(in oklab, #7fa8d9 36%, var(--color-surface));
+  --color-usage-heatmap-3: color-mix(in oklab, #7fa8d9 58%, var(--color-surface));
+  --color-usage-heatmap-4: color-mix(in oklab, #2e4a78 82%, var(--color-surface));
+  --color-tab: #0d1526;
+  --color-tab-active: #1c2d55;
+  --color-tab-border: var(--color-border);
+  --color-menu: #152341;
+  --color-menu-hover: #1c2d55;
+  --color-primary: #6f9fd0;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #1c2d55;
+  --color-interaction-ask-surface: #16264a;
+  --color-interaction-ask-foreground: #9fc4e8;
+  --color-interaction-ask-fill: rgba(70, 191, 114, 0.2);
+  --color-interaction-confirmation-surface: #0f3b2c;
+  --color-interaction-confirmation-foreground: #6ee7a8;
+  --color-foreground: #e8eff9;
+  --color-foreground-subtle: color-mix(in oklab, #e8eff9 60%, transparent);
+  --color-foreground-subtlest: color-mix(in oklab, #e8eff9 38%, transparent);
+  --color-foreground-inverse: #060f24;
+  --color-success: #46bf72;
+  --color-success-foreground: #06240f;
+  --color-idle-task: #a78bfa;
+  --color-idle-task-surface: #1a2148;
+  --color-destructive: #ff5c5c;
+  --color-destructive-foreground: #ffffff;
+  --color-warning: #ff8a30;
+  --color-feedback-privacy-hint: var(--color-yellow-600);
+  --color-warning-foreground: #241000;
+  --color-diff-added: #46bf72;
+  --color-diff-added-foreground: #06240f;
+  --color-diff-removed: #ff5c5c;
+  --color-diff-removed-foreground: #2a0505;
+  --color-git-none: var(--color-foreground);
+  --color-git-modified: #ffcf5c;
+  --color-git-added: #46bf72;
+  --color-git-deleted: #ff6b6b;
+  --color-git-renamed: #9fc4e8;
+  --color-git-untracked: #46bf72;
+  --color-git-ignored: var(--color-foreground-subtlest);
+  --color-git-descendant: #ffcf5c;
+  --color-toast: #152341;
+  --color-tooltip: #1c2d55;
+  --color-tooltip-foreground: #e8eff9;
+  --color-tooltip-tag: #24365e;
+  --color-tooltip-tag-foreground: #9fb8d8;
+  --color-tag: #24365e;
+  --color-file-node: rgba(159, 196, 232, 0.12);
+  --color-file-node-hover: rgba(159, 196, 232, 0.2);
+  --color-file-node-foreground: #9fc4e8;
+  --color-skill-node: rgba(167, 139, 250, 0.12);
+  --color-skill-node-hover: rgba(167, 139, 250, 0.2);
+  --color-skill-node-foreground: #b9a3fb;
+  --color-command-node: rgba(157, 179, 212, 0.12);
+  --color-command-node-hover: rgba(157, 179, 212, 0.2);
+  --color-command-node-foreground: #b0c2dc;
+  --color-subagent-node: rgba(255, 207, 92, 0.12);
+  --color-subagent-node-hover: rgba(255, 207, 92, 0.2);
+  --color-subagent-node-foreground: #ffcf5c;
+  --color-session-node: rgba(86, 212, 212, 0.12);
+  --color-session-node-hover: rgba(86, 212, 212, 0.2);
+  --color-session-node-foreground: #7ee4e4;
+  --color-plugin-node: rgba(127, 168, 217, 0.12);
+  --color-plugin-node-hover: rgba(127, 168, 217, 0.2);
+  --color-plugin-node-foreground: #8fb5dd;
+  --color-plugin-paid-plan-badge: #2c2213;
+  --color-plugin-paid-plan-badge-foreground: #ffcf5c;
+  scrollbar-color: #2e4a78 transparent;
+}
+
+/* 星夜主题:对话区夜空渐变 + 参考图壁纸层(共用自定义背景图变量) */
+.theme-starrynight [data-workspace-conversation-frame] {
+  background: linear-gradient(180deg, #0e1830 0%, #122140 48%, #0a1224 100%);
+}
+
+.theme-starrynight [data-workspace-conversation-frame]::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  pointer-events: none;
+  background-image: var(--zcode-conversation-wallpaper, url("./assets/starrynight-bg.png"));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  filter: blur(3px) saturate(1.04);
+  opacity: 0.42;
+}
+
+/* 星夜主题:品牌按钮星辉蓝渐变 */
+.theme-starrynight .bg-primary {
+  background-image: linear-gradient(135deg, #c8dcf2 0%, #33507e 100%);
+}

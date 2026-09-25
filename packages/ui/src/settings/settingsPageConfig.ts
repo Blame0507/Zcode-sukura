@@ -9,6 +9,7 @@ import {
   Sun,
   Flower,
   Waves,
+  MoonStar,
   BarChart3,
   Terminal,
   AlarmClock,
@@ -33,6 +34,7 @@ export const THEME_MODES: Array<{
   { mode: "zai-light", icon: Sun },
   { mode: "sakura", icon: Flower },
   { mode: "deepseek", icon: Waves },
+  { mode: "starrynight", icon: MoonStar },
 ];
 
 type SettingsSectionGroupId = "basics" | "agentCapabilities" | "dataAndStats";

@@ -1295,6 +1295,7 @@ export function SettingsPage({
         value === "zai-dark" ||
         value === "sakura" ||
         value === "deepseek" ||
+        value === "starrynight" ||
         value === "system"
       ) {
         runUserAction({

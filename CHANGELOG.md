@@ -23,6 +23,15 @@
   - 一键「恢复默认」回到内置樱花壁纸
   - 新增桌面命令 `chooseConversationWallpaper` / `clearConversationWallpaper` / `getConversationWallpaper`
 
+### 新增(第二轮)
+
+- **星夜(Starry Night)主题**:雪山星空湖景参考图配色,深夜蓝暗色系全套 token 映射 + 内置壁纸层 + 星辉蓝渐变按钮
+- **主题化应用 logo**:左上角 logo 改为 CSS 变量驱动的内联 SVG 组件(`ZCodeLogo`),随主题换色——官方浅/深色=黑、樱花粉=粉渐变、深海蓝=蓝渐变、星夜=星辉蓝渐变
+
+### 修复(第二轮)
+
+- **主题切换无反应**:外观页主题白名单硬编码遗漏 `sakura`/`deepseek`(及新增主题),选中后被静默丢弃;白名单已补全并在后续新增主题时同步维护
+
 ### 数据隔离加固
 
 - 用户级文件全部改为跟随应用数据根解析(官方构建语义不变,仍等于真实 HOME):
