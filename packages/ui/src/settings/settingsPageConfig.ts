@@ -10,6 +10,9 @@ import {
   Flower,
   Waves,
   MoonStar,
+  Sunset,
+  Flower2,
+  Trees,
   BarChart3,
   Terminal,
   AlarmClock,
@@ -35,6 +38,9 @@ export const THEME_MODES: Array<{
   { mode: "sakura", icon: Flower },
   { mode: "deepseek", icon: Waves },
   { mode: "starrynight", icon: MoonStar },
+  { mode: "duskglow", icon: Sunset },
+  { mode: "blossom", icon: Flower2 },
+  { mode: "forest", icon: Trees },
 ];
 
 type SettingsSectionGroupId = "basics" | "agentCapabilities" | "dataAndStats";

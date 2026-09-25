@@ -1,6 +1,17 @@
 import { useEffect, useState, useCallback } from "react";
 
-export type Theme = "light" | "dark" | "zai-light" | "zai-dark" | "sakura" | "deepseek" | "starrynight" | "system";
+export type Theme =
+  | "light"
+  | "dark"
+  | "zai-light"
+  | "zai-dark"
+  | "sakura"
+  | "deepseek"
+  | "starrynight"
+  | "duskglow"
+  | "blossom"
+  | "forest"
+  | "system";
 export type ResolvedTheme = "light" | "dark";
 
 const STORAGE_KEY = "zcode-theme";
@@ -16,7 +27,7 @@ export function resolveTheme(theme: Theme): ResolvedTheme {
   }
 
   // deepseek 为深海蓝暗色观感,按暗色解析(标题栏/浏览器表面跟随)。
-  return theme === "dark" || theme === "zai-dark" || theme === "deepseek" || theme === "starrynight"
+  return theme === "dark" || theme === "zai-dark" || theme === "deepseek" || theme === "starrynight" || theme === "duskglow"
     ? "dark"
     : "light";
 }
@@ -88,6 +99,9 @@ export function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle("theme-sakura", appliedTheme === "sakura");
   document.documentElement.classList.toggle("theme-deepseek", appliedTheme === "deepseek");
   document.documentElement.classList.toggle("theme-starrynight", appliedTheme === "starrynight");
+  document.documentElement.classList.toggle("theme-duskglow", appliedTheme === "duskglow");
+  document.documentElement.classList.toggle("theme-blossom", appliedTheme === "blossom");
+  document.documentElement.classList.toggle("theme-forest", appliedTheme === "forest");
   enableThemeSwitchTransition();
   syncBrowserThemeSurface(resolved);
 }
@@ -101,6 +115,9 @@ function isTheme(value: string | null): value is Theme {
     value === "sakura" ||
     value === "deepseek" ||
     value === "starrynight" ||
+    value === "duskglow" ||
+    value === "blossom" ||
+    value === "forest" ||
     value === "system"
   );
 }

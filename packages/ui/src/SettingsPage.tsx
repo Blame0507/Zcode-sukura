@@ -104,6 +104,7 @@ import {
   resolveSettingsSectionForPlatform,
 } from "./settingsPageHelpers.js";
 import { AppearanceSectionContent } from "./settingsCodePreview.js";
+import { THEME_MODES } from "./settings/settingsPageConfig.js";
 import type { SettingsSectionId } from "@/lib/settingsNavigation.js";
 import { requestPluginStoreOpen } from "@/lib/pluginStoreNavigation.js";
 import {
@@ -1288,16 +1289,8 @@ export function SettingsPage({
   );
   const handleFooterThemeChange = useCallback(
     (value: string) => {
-      if (
-        value === "light" ||
-        value === "dark" ||
-        value === "zai-light" ||
-        value === "zai-dark" ||
-        value === "sakura" ||
-        value === "deepseek" ||
-        value === "starrynight" ||
-        value === "system"
-      ) {
+      // 白名单由 THEME_MODES 单一来源驱动:新增主题时不会再漏(此前硬编码曾漏掉自定义主题导致切换无效)。
+      if (THEME_MODES.some((m) => m.mode === (value as Theme))) {
         runUserAction({
           input: { featureId: "settings.appearance", action: "change_theme", trigger: "select" },
           operation: () => setTheme(value as Theme),
